@@ -1,10 +1,13 @@
 const API_URL = process.env.API_URL;
 const LOC = "/api/services";
+import { db } from "@/app/firestore/config";
 
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
 export async function GET(request, { params }) {
   try {
-    const data = await getServicesList();
+    const querySnapshot = await db.collection("services").get();
+    const data = querySnapshot.docs.map(doc => doc.data())
+
     const body = JSON.stringify({ data });
     return new Response(body, {
       status: 200,
@@ -21,21 +24,3 @@ export async function GET(request, { params }) {
     });
   }
 }
-
-async function getServicesList() {
-  const response = await fetch(`${API_URL}/services`);
-  const data = await response.json();
-  return data;
-}
-
-// Response.json({
-//   Mes: "Hello, Next.js!",
-//   env: process.env.API_URL,
-// });
-
-// return new Response(
-//   { Mes: "Hello, Next.js!", env: process.env.API_URL },
-//   {
-//     status: 200,
-//   }
-// );
