@@ -19,7 +19,7 @@ export default function useGetParts(lowInventory = false) {
         });
 
         setError(null);
-        setData(res.data);
+        setData(res);
       } catch (error) {
         console.log("failed to fetch parts", error);
         setData([]);
@@ -42,12 +42,13 @@ export default function useGetParts(lowInventory = false) {
 async function fetchPartsData({ signal, lowInventory }) {
   const params = new URLSearchParams({ lowInventory });
 
-  const response = await fetch(`/api/parts?${params}`, {
+  const response = await fetch(`/api/parts`, {
     signal,
     headers: {
       "Content-Type": "application/json",
     },
   });
+
   if (!response.ok) {
     throw new Error("Network response was not ok  GET PART");
   }

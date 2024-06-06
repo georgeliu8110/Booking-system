@@ -17,6 +17,7 @@ export default function useGetAppointments(date) {
 					signal: controller.signal,
 					date,
 				});
+				console.log('🚀 ~ fetchData ~ res:', res);
 				setError(null);
 				setData(res.data);
 				if (res.data?.status === 500) {
