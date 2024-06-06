@@ -12,6 +12,7 @@
     "@chatscope/chat-ui-kit-react": "^2.0.3",
     "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "firebase": "^10.10.0",
+    "firebase-admin": "^12.1.1",
     "next": "14.1.4",
     "react": "^18",
     "react-datepicker": "^6.6.0",
