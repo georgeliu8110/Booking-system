@@ -1,34 +1,69 @@
-import { mockData } from "@/app/utility/mockData/mockAppointmentApi";
-import { mockPartsData } from "@/app/utility/mockData/mockGetPartsApi";
+// import { mockData } from "@/app/utility/mockData/mockAppointmentApi";
+// import { mockPartsData } from "@/app/utility/mockData/mockGetPartsApi";
+import { db } from "@/app/firestore/config";
 
 const API_URL = process.env.API_URL;
 const LOC = "/api/parts/";
 
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
+
 export async function GET(request) {
-  //
-  const searchParams = request.nextUrl.searchParams;
-  const lowInventory = searchParams.get("lowInventory");
 
   try {
-    const data = await getAllParts({ lowInventory });
+    const querySnapshot = await db.collection("parts").get();
 
-    const body = JSON.stringify({ data });
+    const data = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    const body = JSON.stringify(data);
 
     return new Response(body, {
       status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   } catch (error) {
     const body = JSON.stringify({
       data: [],
-      message: "failed to get parts list",
+      message: "Failed to get parts list",
       error: error.message,
     });
     return new Response(body, {
       status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
   }
 }
+
+// export async function GET(request) {
+//   //
+//   const searchParams = request.nextUrl.searchParams;
+//   const lowInventory = searchParams.get("lowInventory");
+
+//   try {
+//     const data = await getAllParts({ lowInventory });
+
+//     const body = JSON.stringify({ data });
+
+//     return new Response(body, {
+//       status: 200,
+//     });
+//   } catch (error) {
+//     const body = JSON.stringify({
+//       data: [],
+//       message: "failed to get parts list",
+//       error: error.message,
+//     });
+//     return new Response(body, {
+//       status: 500,
+//     });
+//   }
+// }
 
 //request body:{partid,name,quantity,threshold }
 export async function PUT(request) {
@@ -111,14 +146,14 @@ async function updatePart(part) {
 }
 
 //
-async function getAllParts({ lowInventory = false }) {
-  const params = new URLSearchParams({ lowInventory });
+// async function getAllParts({ lowInventory = false }) {
+//   const params = new URLSearchParams({ lowInventory });
 
-  const response = await fetch(`${API_URL}/parts?${params}`);
-  const data = await response.json();
+//   const response = await fetch(`${API_URL}/parts?${params}`);
+//   const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error("Network response not ok");
-  }
-  return data;
-}
+//   if (!response.ok) {
+//     throw new Error("Network response not ok");
+//   }
+//   return data;
+// }
