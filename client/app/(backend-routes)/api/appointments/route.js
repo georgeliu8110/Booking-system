@@ -1,15 +1,39 @@
 import { headers } from "next/headers";
-
+import { db } from "@/app/firestore/config";
 const API_URL = process.env.API_URL;
 const LOC = "/api/appointments";
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
+
 export async function GET(request) {
   const searchParams = request.nextUrl.searchParams;
   const date = searchParams.get("date");
 
   try {
-    const data = await getAppointmentsByDay(date);
+    console.log("date", date)
+    // const data = await getAppointmentsByDay(date);
+    const querySnapshot = await db.collection("customerInfo").get();
+    const queryData = querySnapshot.docs.map(doc => doc.data())
+    // const data = queryData.filter(customer => {
+    //   return customer.appointments.find(appointment => appointment.date === date)
+    // })
+
+    const data = queryData.reduce((acc, customer) => {
+      const appointmentForSelectedDate = customer.appointments.find(appointment => appointment.date === date)
+      console.log("appointmentForSelectedDate", appointmentForSelectedDate)
+      if (appointmentForSelectedDate) {
+        acc.push({
+          name: customer.name,
+          time: appointmentForSelectedDate.timeSlot,
+          serviceId: appointmentForSelectedDate.serviceId,
+          status: appointmentForSelectedDate.status
+         })
+      }
+      return acc
+    }, [])
+    console.log("dataForSelectedDate", data)
     const body = JSON.stringify({ data });
+    // console.log("data", data)
+    // console.log("body", body)
     return new Response(body, {
       status: 200,
     });
