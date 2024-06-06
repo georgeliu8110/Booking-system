@@ -10,10 +10,8 @@ import useGetServices from "../_hooks/service-api/useGetServices";
 import usePostAppointment from "../_hooks/appointments-api/usePostAppointment";
 
 export default function AppointmentPage() {
-  // const [serviceList, setServiceList] = useState(mockServicesData);
-  // const [timeSlotsList, setTimeSlotsList] = useState(mockTimeSlotsData);
 
-  const [startDate, setStartDate] = useState(new Date().toLocaleDateString());
+  const [startDate, setStartDate] = useState(new Date().toLocaleDateString('en-CA'));
   const dateWithNoHyphens = formatDate(startDate);
 
   const { data: serviceList, error: serviceListError } = useGetServices();
@@ -37,13 +35,6 @@ export default function AppointmentPage() {
     error: appointmentPostError,
     isLoading: appointmentPostLoading,
   } = usePostAppointment();
-
-  // const timeSlotData = useGetDayTimeSlots(startDate);
-
-  // useEffect(() => {
-  //   // console.log("timeslots", timeSlotData.data);
-  //   setTimeSlotsList(timeSlotData.data);
-  // }, [timeSlotData.data]);
 
   const serviceInputHandler = (e) => {
     setService(e.target.value);
@@ -194,7 +185,7 @@ export default function AppointmentPage() {
               <option
                 disabled
                 selected>
-                Services
+                Please Select Services
               </option>
               {serviceList.map((service) => (
                 <option key={service.id}>{service.name}</option>
@@ -207,20 +198,21 @@ export default function AppointmentPage() {
               tabIndex={0}
               role="button"
               className="btn btn-lg w-full col-span-1 ">
-              Service Date - {startDate}
+              Service Date - {formatDateToUS(startDate)}
             </div>
             <div
               tabIndex={0}
-              className="dropdown-content z-[1] card card-compact w-64 p-2 shadow bg-blue-500 text-primary-content">
+              className="dropdown-content z-[1] card card-compact w-64 p-2 shadow bg-gray-500 ">
               <div className="card-body">
                 <h3 className="card-title text-white">
                   Please select the date
                 </h3>
-                <DatePicker
-                  className="text-white"
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date.toLocaleDateString())}
-                />
+                <input type='date'
+                  className="text-black w-full"
+                  value={startDate}
+                  min = {new Date()}
+                  onChange={(e) => setStartDate(e.target.value)}>
+                  </input>
               </div>
             </div>
           </div>
@@ -329,10 +321,12 @@ export default function AppointmentPage() {
 }
 
 function formatDate(startDate) {
-  const formattedDate = startDate.split("/");
+  const formattedDate = startDate.split("-");
 
-  let [month, day, year] = formattedDate;
-  if (month.length === 1) {
+  console.log("formattedDate", formattedDate)
+
+  let [year, month, day] = formattedDate;
+  if (month.length === 1 ) {
     month = "0" + month;
   }
   if (day.length === 1) {
@@ -340,4 +334,17 @@ function formatDate(startDate) {
   }
   const dateWithNoHyphens = month + day + year;
   return dateWithNoHyphens;
+}
+
+function formatDateToUS(startDate) {
+  const formattedDate = startDate.split("-");
+
+  let [year, month, day] = formattedDate;
+  if (month.length === 1) {
+    month = "0" + month;
+  }
+  if (day.length === 1) {
+    day = "0" + day;
+  }
+  return `${month}/${day}/${year}`;
 }

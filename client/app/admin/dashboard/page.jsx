@@ -22,7 +22,7 @@ export default function AdminPage() {
   }
   const dateWithNoHyphens = month + day + year;
 
-  const { data, error, isLoading } = useGetAppointments(dateWithNoHyphens);
+  // const { data, error, isLoading } = useGetAppointments(dateWithNoHyphens);
 
   let lowInventory = false;
 
@@ -92,6 +92,8 @@ export default function AdminPage() {
 
   let indexOfLastRow = currentPage * rowsPerPage;
   let indexOfFirstRow = indexOfLastRow - rowsPerPage;
+
+  console.log("getAppointmentsData", getAppointmentsData);
   let displayedRows =
     getAppointmentsData.length >= rowsPerPage
       ? getAppointmentsData.slice(indexOfFirstRow, indexOfLastRow)
