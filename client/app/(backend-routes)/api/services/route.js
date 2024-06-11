@@ -1,5 +1,3 @@
-const API_URL = process.env.API_URL;
-const LOC = "/api/services";
 import { db } from "@/app/firestore/config";
 
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
