@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
-import { db } from "@/app/firestore/config";
-const API_URL = process.env.API_URL;
-const LOC = "/api/appointments";
+import { db, FieldValue } from "@/app/firestore/config";
+
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
 
 export async function GET(request) {
@@ -9,13 +8,8 @@ export async function GET(request) {
   const date = searchParams.get("date");
 
   try {
-    console.log("date", date)
-    // const data = await getAppointmentsByDay(date);
     const querySnapshot = await db.collection("customerInfo").get();
     const queryData = querySnapshot.docs.map(doc => doc.data())
-    // const data = queryData.filter(customer => {
-    //   return customer.appointments.find(appointment => appointment.date === date)
-    // })
 
     const data = queryData.reduce((acc, customer) => {
       const appointmentForSelectedDate = customer.appointments.find(appointment => appointment.date === date)
@@ -30,10 +24,8 @@ export async function GET(request) {
       }
       return acc
     }, [])
-    console.log("dataForSelectedDate", data)
+
     const body = JSON.stringify({ data });
-    // console.log("data", data)
-    // console.log("body", body)
     return new Response(body, {
       status: 200,
     });
@@ -52,11 +44,13 @@ export async function GET(request) {
 
 export async function POST(request) {
   const appointmentData = await request.json();
+  console.log("appointmentData", appointmentData)
 
   try {
-    const data = await postAppointment(appointmentData);
 
-    const body = await JSON.stringify(data);
+    await addOrUpdateAppointment(appointmentData);
+
+    const body = await JSON.stringify(appointmentData.appointmentTime);
     return new Response(body, {
       status: 200,
     });
@@ -73,42 +67,40 @@ export async function POST(request) {
   }
 }
 
-async function getAppointmentsByDay(date) {
-  const params = new URLSearchParams({ date });
-  const res = await fetch(`${API_URL}/appointment/all?${params}`, {
-    headers: { "Content-Type": "application/json" },
-  });
-  return await res.json();
-}
 
-/*
-appointmentData:{
-  appointmentTime:{
-    day:03212024,
-    timeSlot:"TS79"
-  },
-  customerInfo:{
-    address:"123 road",
-    name:"bob",
-    phoneNumber:8171231234,
-    email:"bob@bob.com",
-    serviceId:"q1234"
+async function addOrUpdateAppointment(appointmentData) {
+  const { customerInfo, appointmentTime } = appointmentData;
+
+  try {
+    const customerRef = db.collection('customerInfo');
+    const customerQuery = await customerRef.where('address', '==', customerInfo.address);
+    const customerSnapshot = await customerQuery.get();
+    const customerData = customerSnapshot.docs.map(doc => doc.data())
+
+    if (!customerSnapshot.empty) {
+      // Customer exists, add appointment to the existing document
+      const customerDoc = customerSnapshot.docs[0];
+      const customerDocRef = customerDoc.ref;
+      console.log('Updating existing customer:', customerDoc.id);
+
+      console.log('appointmentTime:', appointmentTime )
+
+      await customerDocRef.update({
+        appointments: FieldValue.arrayUnion(appointmentTime)
+      });
+      console.log('Appointment added to existing customer');
+    } else {
+      // Customer does not exist, create a new document
+      const newCustomerRef = customerRef.doc();
+      console.log('Creating new customer document:', newCustomerRef.id);
+
+      await newCustomerRef.set({
+        ...customerInfo,
+        appointments: [appointmentTime]
+      });
+      console.log('New customer created and appointment added');
+    }
+  } catch (error) {
+    console.error('Error adding or updating appointment:', error);
   }
-}
-*/
-async function postAppointment(appointmentData) {
-  const body = await JSON.stringify(appointmentData);
-
-  const res = await fetch(`${API_URL}/appointment/save`, {
-    headers: { "Content-Type": "application/json" },
-    method: "POST",
-    body,
-  });
-  const data = await res.json();
-
-  return data;
-
-  //! for testing returning same data with confirmationId added
-  // appointmentData.confirmationId = "confirmationBOB1234";
-  // return appointmentData;
 }
