@@ -113,7 +113,7 @@ export default function AdminPage() {
 
   return (
     <>
-      <h1 className="text-black text-center pb-4 font-bold">
+      <h1 className="text-black text-center pb-10 font-bold">
         Today's Appointments
       </h1>
       <table className=" text-black w-full min-w-full divide-y divide-gray-200">
@@ -187,7 +187,7 @@ export default function AdminPage() {
         </div>
       )}
 
-      <h1 className="text-black text-center pb-10 font-bold">
+      <h1 className="text-black text-center py-10 font-bold ">
         Low Inventory Summary
       </h1>
       <table className=" text-black w-full min-w-full divide-y divide-gray-200">

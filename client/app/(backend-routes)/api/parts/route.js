@@ -40,31 +40,6 @@ export async function GET(request) {
   }
 }
 
-// export async function GET(request) {
-//   //
-//   const searchParams = request.nextUrl.searchParams;
-//   const lowInventory = searchParams.get("lowInventory");
-
-//   try {
-//     const data = await getAllParts({ lowInventory });
-
-//     const body = JSON.stringify({ data });
-
-//     return new Response(body, {
-//       status: 200,
-//     });
-//   } catch (error) {
-//     const body = JSON.stringify({
-//       data: [],
-//       message: "failed to get parts list",
-//       error: error.message,
-//     });
-//     return new Response(body, {
-//       status: 500,
-//     });
-//   }
-// }
-
 //request body:{partid,name,quantity,threshold }
 export async function PUT(request) {
   const part = await request.json();
@@ -113,47 +88,39 @@ export async function POST(request) {
 
 // part:{partid,name,quantity,threshold }
 async function createPart(part) {
-  const body = JSON.stringify(part);
-  const response = await fetch(`${API_URL}/parts`, {
-    body,
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!response.ok) {
-    throw new Error("Network response not ok");
-  }
-  const data = await response.json();
+  try {
+    const partsRef = db.collection("parts").doc(part.id);
+    const partsDocSnapshot = await partsRef.get();
 
-  return data;
+    if (partsDocSnapshot.exists) {
+      throw new Error("Part already exists!");
+    }
+    const response = await partsRef.add({
+
+      part
+    });
+    return { message: "Part updated successfully" };
+  } catch (error) {
+    throw new Error(`Failed to update part: ${error.message}`);
+  }
 }
 
 // part:{partid,name,quantity,threshold }
 async function updatePart(part) {
   console.log("part", part);
-  const body = JSON.stringify(part);
-  const response = await fetch(`${API_URL}/parts`, {
-    body,
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-  });
 
-  if (!response.ok) {
-    throw new Error("Network response not ok");
+  try {
+    const partsRef = db.collection("parts").doc(part.id);
+    const partsDocSnapshot = await partsRef.get();
+
+    if (!partsDocSnapshot.exists) {
+      throw new Error("Part not found");
+    }
+    const response = await partsRef.update({
+      quantity: part.quantity,
+    });
+    return { message: "Part updated successfully" };
+  } catch (error) {
+    throw new Error(`Failed to update part: ${error.message}`);
   }
-  const data = await response.json();
-
-  return data;
 }
-
-//
-// async function getAllParts({ lowInventory = false }) {
-//   const params = new URLSearchParams({ lowInventory });
-
-//   const response = await fetch(`${API_URL}/parts?${params}`);
-//   const data = await response.json();
-
-//   if (!response.ok) {
-//     throw new Error("Network response not ok");
-//   }
-//   return data;
-// }

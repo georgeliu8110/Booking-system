@@ -1,5 +1,6 @@
 const API_URL = process.env.API_URL;
 const LOC = "/api/timeslots/";
+import { db } from "@/app/firestore/config";
 
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
 export async function GET(request, { params }) {
@@ -7,7 +8,9 @@ export async function GET(request, { params }) {
   const { date } = params;
 
   try {
-    const data = await getTimeSlotList(date);
+    const querySnapshot = await db.collection("timeSlots").doc(`${date}`).get();
+    const data = querySnapshot.data() || {};
+
     const body = JSON.stringify({ data });
 
     return new Response(body, {
@@ -25,9 +28,3 @@ export async function GET(request, { params }) {
   }
 }
 
-async function getTimeSlotList(date) {
-  const response = await fetch(`${API_URL}/timeslots/${date}`);
-  const data = await response.json();
-
-  return data;
-}

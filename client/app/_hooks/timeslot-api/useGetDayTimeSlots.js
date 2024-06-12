@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function useGetDayTimeSlots(date) {
+  console.log("date hhok", date)
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,6 +18,8 @@ export default function useGetDayTimeSlots(date) {
           date,
           signal: controller.signal,
         });
+
+        console.log("res timeslots", res);
 
         setError(null);
         setData(res.data);

@@ -10,6 +10,7 @@ import { mockData } from '@/app/utility/mockData/mockGetAppointmentsApi';
 import { appointmentAttributes } from '@/constants';
 import { formatDateWithNoSlash } from '@/app/utility/formatDateWithNoSlash';
 import useGetParts from '@/app/_hooks/part-api/useGetParts';
+
 export default function AppointmentsPage() {
 	const [startDate, setStartDate] = useState(new Date().toLocaleDateString());
 	const { data: appointmentsListData, error: appointmentsListError } = useGetAppointments(
@@ -42,26 +43,14 @@ export default function AppointmentsPage() {
 				: appointmentsListData;
 		totalPages = Math.ceil(appointmentsListData.length / appointmentsPerPage);
 	}
-	// const [currentAppointments, setCurrentAppointments] = useState(null);
-	// const [totalPages, setTotalPages] = useState(0);
-	// useEffect(() => {
-	// 	if (appointmentsListData) {
-	// 		tempCurrentAppointments =
-	// 			appointmentsListData.length >= appointmentsPerPage
-	// 				? appointmentsListData.slice(indexOfFirstAppointment, indexOfLastAppointment)
-	// 				: appointmentsListData;
-	// 		tempTotalPages = Math.ceil(appointmentsListData.length / appointmentsPerPage);
-	// 		setCurrentAppointments(tempCurrentAppointments);
-	// 		setTotalPages(tempTotalPages);
-	// 	}
-	// }, [appointmentsListData]);
 
 	console.log('🚀 ~ AppointmentsPage ~ currentAppointments:', currentAppointments);
 	console.log('🚀 ~ AppointmentsPage ~ appointmentsListError:', appointmentsListError);
 
 	return (
 		<>
-			<div className='date-picker-container'>
+			<div className='date-picker-container pl-4 flex items-center justify-left'>
+				<label htmlFor='date-picker' className='text-lg font-bold pr-3'>Select Appointment Date:</label>
 				<DatePicker
 					selected={startDate}
 					onChange={(date) => setStartDate(date.toLocaleDateString())}
@@ -83,6 +72,8 @@ export default function AppointmentsPage() {
 					<tbody>
 						{currentAppointments ? (
 							currentAppointments.map((appointment, index) => {
+								console.log('appointment@@', appointment)
+								console.log('asdas11~~~~~~~~~~~~~~d',getServicesDataFromCollection(appointment.serviceId));
 								return (
 									<tr key={index} className='border-gray-300 text-black font-medium'>
 										<th>{indexOfFirstAppointment + index + 1}</th>

@@ -8,11 +8,14 @@ import { useRouter } from "next/navigation";
 import useGetDayTimeSlots from "../_hooks/timeslot-api/useGetDayTimeSlots";
 import useGetServices from "../_hooks/service-api/useGetServices";
 import usePostAppointment from "../_hooks/appointments-api/usePostAppointment";
+import { v4 as uuidv4 } from 'uuid';
+import {Suspense} from "react";
 
 export default function AppointmentPage() {
 
   const [startDate, setStartDate] = useState(new Date().toLocaleDateString('en-CA'));
   const dateWithNoHyphens = formatDate(startDate);
+  console.log("dateWithNoHyphens", dateWithNoHyphens)
 
   const { data: serviceList, error: serviceListError } = useGetServices();
   const { data: timeSlotsList, error: timeSlotsListError } =
@@ -35,6 +38,8 @@ export default function AppointmentPage() {
     error: appointmentPostError,
     isLoading: appointmentPostLoading,
   } = usePostAppointment();
+
+  console.log("timeSlotsList", timeSlotsList);
 
   const serviceInputHandler = (e) => {
     setService(e.target.value);
@@ -132,24 +137,20 @@ export default function AppointmentPage() {
       (timeSlotKey) => timeSlots[timeSlotKey] === appointment
     );
     const selectedService = serviceList.find((item) => item.name === service);
-    const formattedDate = startDate.split("/");
-    let [month, day, year] = formattedDate;
-    if (month.length === 1) {
-      month = "0" + month;
-    }
-    if (day.length === 1) {
-      day = "0" + day;
-    }
-    const dateWithNoHyphens = month + day + year;
 
     const data = {
-      appointmentTime: { date: dateWithNoHyphens, timeSlot: timeSlotKey },
+      appointmentTime: {
+        date: dateWithNoHyphens,
+        timeSlot: timeSlotKey,
+        serviceId: selectedService.id,
+        status: "pending",
+        confirmationNumber: uuidv4()
+      },
       customerInfo: {
         address: street + " " + apt,
         name: firstName + " " + lastName,
         phoneNumber: phone,
         email: email,
-        serviceId: selectedService.id,
       },
     };
 
@@ -225,12 +226,12 @@ export default function AppointmentPage() {
                 selected>
                 Appointment Time Slots
               </option>
-              {timeSlotsList.TS79 && <option>{timeSlots.TS79}</option>}
-              {timeSlotsList.TS911 && <option>{timeSlots.TS911}</option>}
-              {timeSlotsList.TS111 && <option>{timeSlots.TS111}</option>}
-              {timeSlotsList.TS13 && <option>{timeSlots.TS13}</option>}
-              {timeSlotsList.TS35 && <option>{timeSlots.TS35}</option>}
-              {timeSlotsList.TS57 && <option>{timeSlots.TS57}</option>}
+              {!timeSlotsList.TS79 && <option>{timeSlots.TS79}</option>}
+              {!timeSlotsList.TS911 && <option>{timeSlots.TS911}</option>}
+              {!timeSlotsList.TS111 && <option>{timeSlots.TS111}</option>}
+              {!timeSlotsList.TS13 && <option>{timeSlots.TS13}</option>}
+              {!timeSlotsList.TS35 && <option>{timeSlots.TS35}</option>}
+              {!timeSlotsList.TS57 && <option>{timeSlots.TS57}</option>}
             </select>
           </div>
 
@@ -308,11 +309,14 @@ export default function AppointmentPage() {
             <p className="py-5 text-xl">Selected time: {appointment}</p>
           </div>
           <div>
-            <button
+            <Suspense fallback={<p>loading...</p>}>
+              <button
               className="btn btn-primary mt-8 "
               onClick={bookAppointment}>
               Book Appointment
             </button>
+            </Suspense>
+
           </div>
         </div>
       </div>
@@ -337,6 +341,7 @@ function formatDate(startDate) {
 }
 
 function formatDateToUS(startDate) {
+  console.log("startDate", startDate)
   const formattedDate = startDate.split("-");
 
   let [year, month, day] = formattedDate;
