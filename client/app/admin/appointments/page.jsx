@@ -44,9 +44,6 @@ export default function AppointmentsPage() {
 		totalPages = Math.ceil(appointmentsListData.length / appointmentsPerPage);
 	}
 
-	console.log('🚀 ~ AppointmentsPage ~ currentAppointments:', currentAppointments);
-	console.log('🚀 ~ AppointmentsPage ~ appointmentsListError:', appointmentsListError);
-
 	return (
 		<>
 			<div className='date-picker-container pl-4 flex items-center justify-left'>
@@ -70,10 +67,8 @@ export default function AppointmentsPage() {
 						</tr>
 					</thead>
 					<tbody>
-						{currentAppointments ? (
+						{currentAppointments.length !==0 ? (
 							currentAppointments.map((appointment, index) => {
-								console.log('appointment@@', appointment)
-								console.log('asdas11~~~~~~~~~~~~~~d',getServicesDataFromCollection(appointment.serviceId));
 								return (
 									<tr key={index} className='border-gray-300 text-black font-medium'>
 										<th>{indexOfFirstAppointment + index + 1}</th>
@@ -87,8 +82,8 @@ export default function AppointmentsPage() {
 								);
 							})
 						) : (
-							<tr>
-								<td>No appointments</td>
+							<tr className="hover">
+								<td colSpan='5' className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No appointments for today!</td>
 							</tr>
 						)}
 					</tbody>
