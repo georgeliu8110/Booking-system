@@ -3,7 +3,7 @@ import useGetParts from "@/app/_hooks/part-api/useGetParts";
 import useUpdatePart from "@/app/_hooks/part-api/useUpdatePart";
 import { partsAttributes } from "@/constants"
 import { useEffect, useState } from "react";
-import NewInvInput from '@/app/components/newInvInput';
+import NewInvInput from '@/app/components/NewInvInput';
 
 export default function InventoryPage() {
     const [partsData, setPartsData] = useState([]);
