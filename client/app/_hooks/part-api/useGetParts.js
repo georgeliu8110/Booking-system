@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
-export default function useGetParts(lowInventory = false) {
+export default function useGetParts(lowInventory = false, dependencies = []) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
-
     setError(null);
     const fetchData = async () => {
       try {
@@ -34,7 +33,7 @@ export default function useGetParts(lowInventory = false) {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [lowInventory, ...dependencies]);
 
   return { data, isLoading, error };
 }
