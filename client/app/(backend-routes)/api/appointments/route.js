@@ -13,7 +13,6 @@ export async function GET(request) {
 
     const data = queryData.reduce((acc, customer) => {
       const appointmentForSelectedDate = customer.appointments.find(appointment => appointment.date === date)
-      console.log("appointmentForSelectedDate", appointmentForSelectedDate)
       if (appointmentForSelectedDate) {
         acc.push({
           name: customer.name,
@@ -44,7 +43,6 @@ export async function GET(request) {
 
 export async function POST(request) {
   const appointmentData = await request.json();
-  console.log("appointmentData", appointmentData)
 
   try {
 
@@ -81,24 +79,19 @@ async function addOrUpdateAppointment(appointmentData) {
       // Customer exists, add appointment to the existing document
       const customerDoc = customerSnapshot.docs[0];
       const customerDocRef = customerDoc.ref;
-      console.log('Updating existing customer:', customerDoc.id);
-
-      console.log('appointmentTime:', appointmentTime )
 
       await customerDocRef.update({
         appointments: FieldValue.arrayUnion(appointmentTime)
       });
-      console.log('Appointment added to existing customer');
     } else {
       // Customer does not exist, create a new document
       const newCustomerRef = customerRef.doc();
-      console.log('Creating new customer document:', newCustomerRef.id);
 
       await newCustomerRef.set({
         ...customerInfo,
         appointments: [appointmentTime]
       });
-      console.log('New customer created and appointment added');
+
     }
   } catch (error) {
     console.error('Error adding or updating appointment:', error);

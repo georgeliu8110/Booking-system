@@ -18,7 +18,6 @@ export async function GET(request) {
     }));
 
     const body = JSON.stringify(data);
-
     return new Response(body, {
       status: 200,
       headers: {
@@ -66,9 +65,12 @@ export async function PUT(request) {
 
 //request body:{partid,name,quantity,threshold }
 export async function POST(request) {
-  const part = await request.json();
+
+  const parts = await request.json();
   try {
-    const data = await createPart(part);
+    const data = parts.map(async (part) => {
+      return await createPart(part);
+    })
     const body = JSON.stringify({ data });
 
     return new Response(body, {
@@ -95,10 +97,7 @@ async function createPart(part) {
     if (partsDocSnapshot.exists) {
       throw new Error("Part already exists!");
     }
-    const response = await partsRef.add({
-
-      part
-    });
+    const response = await partsRef.set(part);
     return { message: "Part updated successfully" };
   } catch (error) {
     throw new Error(`Failed to update part: ${error.message}`);
@@ -107,7 +106,6 @@ async function createPart(part) {
 
 // part:{partid,name,quantity,threshold }
 async function updatePart(part) {
-  console.log("part", part);
 
   try {
     const partsRef = db.collection("parts").doc(part.id);

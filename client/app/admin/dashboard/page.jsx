@@ -93,7 +93,6 @@ export default function AdminPage() {
   let indexOfLastRow = currentPage * rowsPerPage;
   let indexOfFirstRow = indexOfLastRow - rowsPerPage;
 
-  console.log("getAppointmentsData", getAppointmentsData);
   let displayedRows =
     getAppointmentsData.length >= rowsPerPage
       ? getAppointmentsData.slice(indexOfFirstRow, indexOfLastRow)
@@ -127,16 +126,16 @@ export default function AdminPage() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200 mt-4 overflow-scroll max-h-max">
-          {displayedRows.map((app, index) => {
+          {getAppointmentsData.length !== 0? (displayedRows.map((app, index) => {
             return (
               <tr
                 className="hover"
                 key={uuidv4()}>
-                <th
+                <td
                   className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                   key={uuidv4()}>
                   {indexOfFirstRow + index + 1}
-                </th>
+                </td>
                 <td
                   className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                   key={uuidv4()}>
@@ -159,7 +158,12 @@ export default function AdminPage() {
                 </td>
               </tr>
             );
-          })}
+          })) : (
+            <tr className="hover">
+              <td colSpan="5" className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No appointments for today!</td>
+            </tr>
+          )
+        }
         </tbody>
       </table>
       {totalPages > 1 && (
