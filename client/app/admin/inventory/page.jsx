@@ -111,6 +111,7 @@ export default function InventoryPage() {
 
     return (
         <>
+
         <div className="w-full border-2 border-black m-4 p-6 rounded-xl">
             <h1 className="text-center pb-6 font-bold">Inventory</h1>
             <label className="input input-bordered flex items-center gap-2 max-w-screen-sm h-10 mb-5">
@@ -120,16 +121,16 @@ export default function InventoryPage() {
             <table className="table text-center">
                 <thead>
                     <tr className="text-black border-2 border-black">
-                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase" key={index}>{item}</th>)}
+                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase dark:text-white" key={index}>{item}</th>)}
                     </tr>
                 </thead>
                 <tbody>
                     {currentInventory.map((part, index) => {
                         return (
-                        <tr key={part.id}  className="border-gray-300 text-black font-medium">
-                            <th className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>{part.id}</th>
-                            <td className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>{part.name}</td>
-                            <td className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>{part.threshold}</td>
+                        <tr key={part.id}  className="border-gray-300 text-black font-medium dark:text-white">
+                            <th className={ `${part.quantity < part.threshold? 'text-red-600' : 'text-black'} dark:text-white`}>{part.id}</th>
+                            <td className={ `${part.quantity < part.threshold? 'text-red-600' : 'text-black'} dark:text-white`}>{part.name}</td>
+                            <td className={ `${part.quantity < part.threshold? 'text-red-600' : 'text-black'} dark:text-white`}>{part.threshold}</td>
                             <td>
                                 <div className="inline-flex">
                                     <button onClick={ (e) => handleQuantityChange(e, part.id, 1) } className="flex justify-center items-center text-2xl w-8 h-8 border-2 border-black hover:bg-gray-200">+</button>
@@ -163,7 +164,7 @@ export default function InventoryPage() {
             <table className="table text-center">
                 <thead>
                     <tr className="text-black border-2 border-black">
-                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase" key={index}>{item}</th>)}
+                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase dark:text-white" key={index}>{item}</th>)}
                     </tr>
                 </thead>
                 <tbody>

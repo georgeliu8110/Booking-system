@@ -112,12 +112,13 @@ export default function AdminPage() {
 
   return (
     <>
-      <h1 className="text-black text-center pb-10 font-bold">
+      <div className="h-screen flex flex-col">
+      <h1 className="text-black text-center pb-10 font-bold dark:text-white">
         Today's Appointments
       </h1>
       <table className=" text-black w-full min-w-full divide-y divide-gray-200">
-        <thead className="text-black w-full max-w-full border-2 border-black rounded-3xl bg-gray-50">
-          <tr className="mb-7">
+        <thead className="text-black w-full max-w-full border-2 border-black rounded-3xl bg-gray-50 dark:bg-black">
+          <tr className="mb-7 dark:text-white">
             <th></th>
             <th>Name</th>
             <th>Time</th>
@@ -125,34 +126,34 @@ export default function AdminPage() {
             <th>Parts Needed</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200 mt-4 overflow-scroll max-h-max">
+        <tbody className="bg-white divide-y divide-gray-200 mt-4 overflow-scroll max-h-max dark:text-white dark:bg-black">
           {getAppointmentsData.length !== 0? (displayedRows.map((app, index) => {
             return (
               <tr
                 className="hover"
                 key={uuidv4()}>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900  dark:text-white"
                   key={uuidv4()}>
                   {indexOfFirstRow + index + 1}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {app.name}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {timeSlots[app.time]}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {serviceName(app.serviceId)}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {partNameCollection(app.serviceId)}
                 </td>
@@ -160,7 +161,7 @@ export default function AdminPage() {
             );
           })) : (
             <tr className="hover">
-              <td colSpan="5" className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No appointments for today!</td>
+              <td colSpan="5" className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center  dark:text-white">No appointments for today!</td>
             </tr>
           )
         }
@@ -191,39 +192,39 @@ export default function AdminPage() {
         </div>
       )}
 
-      <h1 className="text-black text-center py-10 font-bold ">
+      <h1 className="text-black text-center py-10 font-bold dark:text-white ">
         Low Inventory Summary
       </h1>
-      <table className=" text-black w-full min-w-full divide-y divide-gray-200">
+      <table className=" text-black w-full min-w-full divide-y divide-gray-200  dark:text-white dark:bg-black">
         <thead className="text-black w-full max-w-full border-2 border-black rounded-3xl bg-gray-50">
-          <tr className="mb-7">
+          <tr className="mb-7 dark:bg-black">
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white ">
               Name
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-white ">
               Quantity
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200 mt-4 overflow-scroll max-h-max">
+        <tbody className="bg-white divide-y divide-gray-200 mt-4 overflow-scroll max-h-max dark:bg-black ">
           {lowInventoryList.map((item, index) => {
             return (
               <tr
-                className="hover"
+                className="hover "
                 key={uuidv4()}>
                 <th
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {index + 1}
                 </th>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {item.name}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
                   key={uuidv4()}>
                   {item.quantity}
                 </td>
@@ -232,6 +233,7 @@ export default function AdminPage() {
           })}
         </tbody>
       </table>
+      </div>
     </>
   );
 }
