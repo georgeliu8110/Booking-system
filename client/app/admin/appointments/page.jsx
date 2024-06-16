@@ -46,6 +46,7 @@ export default function AppointmentsPage() {
 
 	return (
 		<>
+		<div className='h-screen flex flex-col'>
 			<div className='date-picker-container pl-4 flex items-center justify-left'>
 				<label htmlFor='date-picker' className='text-lg font-bold pr-3'>Select Appointment Date:</label>
 				<DatePicker
@@ -54,7 +55,7 @@ export default function AppointmentsPage() {
 					className='bg-white border-black border-2 rounded-lg px-3 py-2 outline-none focus:ring'
 				/>
 			</div>
-			<div className='w-full border-2 border-black m-4 p-6 rounded-xl'>
+			<div className='w-full border-2 border-black m-4 p-6 rounded-xl '>
 				<h1 className='text-center pb-6 font-bold'>Appointments for {startDate}</h1>
 				<table className='table text-center'>
 					<thead>
@@ -70,7 +71,7 @@ export default function AppointmentsPage() {
 						{currentAppointments.length !==0 ? (
 							currentAppointments.map((appointment, index) => {
 								return (
-									<tr key={index} className='border-gray-300 text-black font-medium'>
+									<tr key={index} className='border-gray-300 text-black font-medium dark:text-white'>
 										<th>{indexOfFirstAppointment + index + 1}</th>
 										<td>{appointment.name}</td>
 										<td>{timeSlots[appointment.time]}</td>
@@ -112,6 +113,7 @@ export default function AppointmentsPage() {
 						)}
 					</div>
 				</div>
+			</div>
 			</div>
 		</>
 	);

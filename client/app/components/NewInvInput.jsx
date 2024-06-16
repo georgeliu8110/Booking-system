@@ -31,20 +31,20 @@ export default function NewInvInput({part, deletePart, clickedPartId, addNewPart
   }
 
   return (
-    <tr key={part.id}  className="border-gray-300 text-black font-medium">
+    <tr key={part.id}  className="border-gray-300 text-black font-medium dark:text-white">
                             <th>{part.id}</th>
                             <td >
-                              <input type="text" name="part_name" placeholder='part name' onChange={handleNameChange} className="text-center h-8 bg-gray-300 border-2 border-black daisy-custom-input"/>
+                              <input type="text" name="part_name" placeholder='part name' onChange={handleNameChange} className="text-center h-8 bg-gray-300 border-2 border-black daisy-custom-input dark:text-white"/>
                             </td>
                             <td className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>
-                              <input type="number" name="part_threshold" placeholder='threshold' onChange={handleThresholdChange} className="text-center h-8 bg-gray-300 border-2 border-black daisy-custom-input"/>
+                              <input type="number" name="part_threshold" placeholder='threshold' onChange={handleThresholdChange} className="text-center h-8 bg-gray-300 border-2 border-black daisy-custom-input dark:text-white"/>
                             </td>
                             <td>
                                 <div className="inline-flex">
-                                    <button onClick={ handleIncrement } className="flex justify-center items-center text-2xl w-8 h-8 border-2 border-black hover:bg-gray-200">+</button>
-                                    <input type="number" name="part_quantity" value={quantityInput} onChange={handleQuantityChange} className="text-center w-10 h-8 bg-gray-300 border-y-2 border-black daisy-custom-input"/>
-                                    <button onClick={ handleDecrement } className="flex justify-center items-center text-2xl w-8 h-8 border-2 border-black hover:bg-gray-200">-</button>
-                                    <button name="update" className="h-8 ml-4 px-2 border-2 border-black hover:bg-gray-200 w-24 text-center whitespace-nowrap" onClick={(e) => deletePart(part)}>{clickedPartId === part.id? (
+                                    <button onClick={ handleIncrement } className="flex justify-center items-center text-2xl w-8 h-8 border-2 border-black hover:bg-gray-200 dark:text-white">+</button>
+                                    <input type="number" name="part_quantity" value={quantityInput} onChange={handleQuantityChange} className="text-center w-10 h-8 bg-gray-300 border-y-2 border-black daisy-custom-input dark:text-white"/>
+                                    <button onClick={ handleDecrement } className="flex justify-center items-center text-2xl w-8 h-8 border-2 border-black hover:bg-gray-200 dark:text-white">-</button>
+                                    <button name="update" className="h-8 ml-4 px-2 border-2 border-black hover:bg-gray-200 w-24 text-center whitespace-nowrap dark:text-white" onClick={(e) => deletePart(part)}>{clickedPartId === part.id? (
                                     <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>

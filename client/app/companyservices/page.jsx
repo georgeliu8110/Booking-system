@@ -1,10 +1,10 @@
 import { FaChevronRight } from "react-icons/fa6";
 
 export default function CompanyServicesPage() {
-  return <div className='bg-white text-black min-h-screen flex flex-col'>
+  return <div className='bg-white text-black min-h-screen flex flex-col dark:bg-black'>
     <header className='flex flex-col justify-center items-center py-10 my-6'>
-      <h6 >What we offer.</h6>
-      <h1 className='font-bold text-5xl pt-3'>What we can do for you!</h1>
+      <h6 className='dark:text-white'>What we offer.</h6>
+      <h1 className='font-bold text-5xl pt-3 dark: font-white dark:text-white'>What we can do for you!</h1>
     </header>
     <div className='flex justify-center items-center'>
       <div className="card card-side bg-zinc-50 items-center">

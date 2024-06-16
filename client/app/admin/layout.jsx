@@ -20,7 +20,7 @@ export default function Layout({ children }) {
 	}, [user, loading, error]);
 
 	return (
-		<div className='drawer bg-white'>
+		<div className='drawer bg-white dark:bg-black'>
 			<input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
 			<div className='drawer-content flex flex-col m-4 p-4'>
 				<div>{children}</div>

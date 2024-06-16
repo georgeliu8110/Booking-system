@@ -13,7 +13,8 @@ export default function InventoryPage() {
     const {updatePart, error: updatePartsError, isLoading: updatePartsLaoding} = useUpdatePart();
     const [clickedPartId, setClickedPartId] = useState(null);
     const [updateMessage, setUpdateMessage] = useState(null);
-    const [ defaultPartInputFileds, setDefaultPartInputFields ] = useState([{id: '', name:'', quantity:0, threshold:0}]);
+    const [defaultPartInputFileds, setDefaultPartInputFields] = useState([{id: '', name:'', quantity:0, threshold:0}]);
+    const [searchInput, setSearchInput] = useState('')
 
     const inventoryPerPage = 6;
     const indexOfLastInventory = currentPage * inventoryPerPage;
@@ -22,12 +23,23 @@ export default function InventoryPage() {
     const totalPages = Math.ceil(partsData.length / inventoryPerPage);
 
     useEffect(() => {
+       const searchResultById = partsDataFromApi.filter((part) => part.id.includes(searchInput))
+       const searchResultByName = partsDataFromApi.filter((part) => part.name.toLowerCase().includes(searchInput))
+       const finalResult = [...searchResultById, ...searchResultByName]
+       setPartsData(prev => finalResult);
+    }, [searchInput])
+
+    useEffect(() => {
         if (partsDataFromApi && partsDataFromApi.length > 0) {
             setPartsData(partsDataFromApi);
             const nextId = String(Number(partsDataFromApi[partsDataFromApi.length - 1]?.id.split('p')[1]) + 1);
             setDefaultPartInputFields(prev => prev[0].id === ''? [...prev, prev[0].id = 'p' + nextId]: prev )
         }
     }, [partsDataFromApi, refreshTrigger]);
+
+    const handleSearchPart = (e) => {
+       setSearchInput(e.target.value);
+    }
 
     const updateParts = async (part) => {
         try{
@@ -99,21 +111,26 @@ export default function InventoryPage() {
 
     return (
         <>
+
         <div className="w-full border-2 border-black m-4 p-6 rounded-xl">
             <h1 className="text-center pb-6 font-bold">Inventory</h1>
+            <label className="input input-bordered flex items-center gap-2 max-w-screen-sm h-10 mb-5">
+            <input type="text" className="grow" placeholder="Search Inventory by id or name" onChange = {handleSearchPart}/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
+            </label>
             <table className="table text-center">
                 <thead>
                     <tr className="text-black border-2 border-black">
-                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase" key={index}>{item}</th>)}
+                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase dark:text-white" key={index}>{item}</th>)}
                     </tr>
                 </thead>
                 <tbody>
                     {currentInventory.map((part, index) => {
                         return (
-                        <tr key={part.id}  className="border-gray-300 text-black font-medium">
-                            <th className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>{part.id}</th>
-                            <td className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>{part.name}</td>
-                            <td className={ part.quantity < part.threshold? 'text-red-600' : 'text-black'}>{part.threshold}</td>
+                        <tr key={part.id}  className="border-gray-300 text-black font-medium dark:text-white">
+                            <th className={ `${part.quantity < part.threshold? 'text-red-600' : 'text-black'} dark:text-white`}>{part.id}</th>
+                            <td className={ `${part.quantity < part.threshold? 'text-red-600' : 'text-black'} dark:text-white`}>{part.name}</td>
+                            <td className={ `${part.quantity < part.threshold? 'text-red-600' : 'text-black'} dark:text-white`}>{part.threshold}</td>
                             <td>
                                 <div className="inline-flex">
                                     <button onClick={ (e) => handleQuantityChange(e, part.id, 1) } className="flex justify-center items-center text-2xl w-8 h-8 border-2 border-black hover:bg-gray-200">+</button>
@@ -147,7 +164,7 @@ export default function InventoryPage() {
             <table className="table text-center">
                 <thead>
                     <tr className="text-black border-2 border-black">
-                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase" key={index}>{item}</th>)}
+                        {partsAttributes.map((item, index) => <th className="text-gray-500 uppercase dark:text-white" key={index}>{item}</th>)}
                     </tr>
                 </thead>
                 <tbody>
