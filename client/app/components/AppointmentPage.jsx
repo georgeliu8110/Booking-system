@@ -102,6 +102,8 @@ export default function AppointmentPage() {
       setCustomerInput((prev) => ({ ...prev, firstName: "", lastName: "", email: "", phone: "", street: "", apt: "", state: "", city: "", zip: "" }));
     }
 
+    setErrorInputMessage('');
+
     stepCtx.goToPreviousStep();
   }
 
