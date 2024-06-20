@@ -1,3 +1,5 @@
+'use client';
+
 import { FaChevronRight } from "react-icons/fa6";
 
 export default function CompanyServicesPage() {
@@ -12,7 +14,7 @@ export default function CompanyServicesPage() {
           <h1 className="card-title font-bold text-4xl">Plumbing Repaires and Maintenance</h1>
           <p>From leaky faucets to clogged drains</p>
           <div className="card-actions justify-start items-center">
-          <a href={'./appointment'} className='text-sm text-blue-500 flex items-center'>Let's fix your problem<FaChevronRight className='text-blue-500 ml-1'/></a>
+          <button onClick={()=>document.getElementById('my_modal_3').showModal()} className='text-sm text-blue-500 flex items-center'>Let's fix your problem<FaChevronRight className='text-blue-500 ml-1'/></button>
           </div>
         </div>
         <figure><img src="pipe1.png" alt="Movie"/></figure>
@@ -25,7 +27,7 @@ export default function CompanyServicesPage() {
           <h1 className="card-title font-bold text-4xl">Plumbing Installations</h1>
           <p>We offer professional installation services</p>
           <div className="card-actions justify-start items-center">
-          <a href={'./appointment'} className='text-sm text-blue-500 flex items-center'>Let's fix your problem<FaChevronRight className='text-blue-500 ml-1'/></a>
+          <button onClick={()=>document.getElementById('my_modal_3').showModal()} className='text-sm text-blue-500 flex items-center'>Let's fix your problem<FaChevronRight className='text-blue-500 ml-1'/></button>
           </div>
         </div>
         <figure className='selt-end'><img src="pipe2.png" alt="Movie"/></figure>
@@ -37,7 +39,7 @@ export default function CompanyServicesPage() {
           <h1 className="card-title font-bold text-4xl">Drain cleaning</h1>
           <p>Effectively clear stubborn clogs and restire flow</p>
           <div className="card-actions flex justify-center items-center w-full">
-          <a href={'./appointment'} className='text-sm text-blue-500 flex items-center'>Let's fix your problem<FaChevronRight className='text-blue-500 ml-1'/></a>
+          <button onClick={()=>document.getElementById('my_modal_3').showModal()} className='text-sm text-blue-500 flex items-center'>Let's fix your problem<FaChevronRight className='text-blue-500 ml-1'/></button>
           </div>
         </div>
         <figure><img src="pipe3.png" alt="Movie"/></figure>
