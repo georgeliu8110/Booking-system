@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import SlideShow from '@/app/components/SlideShow';
-import { useTheme } from 'next-themes'
-
 
 export default function Home() {
 	return (
@@ -15,9 +13,9 @@ export default function Home() {
 					Your trusted choice for all plumbing works.
 				 </h1>
 				<p className='text-lg text-gray-600 mb-6 font-semibold'>Reliable. Professional. Unmatched</p>
-				<Link href={'/appointment'}>
-					<button className='text-xl text-blue-500 hover:text-blue-700'>{`Let's fix your problem >`}</button>
-				</Link>
+
+					<button className='text-xl text-blue-500 hover:text-blue-700 ' onClick={()=>document.getElementById('my_modal_3').showModal()}>{`Let's fix your problem >`}</button>
+
 				</div>
         <div className='flex justify-center w-full mb-auto'>
           <SlideShow />
