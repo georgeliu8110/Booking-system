@@ -9,9 +9,12 @@ import { usePathname } from "next/navigation";
 import useDrift from "@/app/_hooks/liveChat-api/useDrift.js";
 import Image from 'next/image';
 import ThemeChanger from '@/app/components/ThemeChanger';
+import AppointmentModal from '@/app/components/AppointmentModal';
 
 export default function NavBar({ children }) {
   const [user, loading, error] = useAuthState(auth);
+
+  console.log("user", user);
 
   useDrift();
   const [shouldUseDrift, setShouldUseDrift] = useState(true);
@@ -30,6 +33,14 @@ export default function NavBar({ children }) {
     setShouldUseDrift(adminURL ? false : true);
   }, [pathname]);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
         <div className="w-auto mx-3 mt-3 px-4 py-8">
           <header className="flex border rounded-xl p-1 items-center bg-gray-100 dark:bg-black">
@@ -42,11 +53,12 @@ export default function NavBar({ children }) {
             </div>
             <div className="flex justify-end flex-1 px-2">
               <div className="flex items-stretch">
-                <Link href={"/appointment"} className="btn btn-ghost rounded-btn text-xl">Book Now</Link>
+              <button className="btn btn-ghost rounded-btn text-xl" onClick={()=>document.getElementById('my_modal_3').showModal()}>Book Now</button>
+              <AppointmentModal />
                 <Link href={"/companyservices"} className="btn btn-ghost rounded-btn text-xl">Services</Link>
-                <div className="dropdown dropdown-end">
+                <div className="dropdown dropdown-hover">
                   <div tabIndex={0} role="button" className="btn btn-ghost rounded-btn text-xl">Client Portal</div>
-                  <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+                  { !user ? (<ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
                   <li>
                       <Link href={"/signup"}>
                       <div className="font-bold rounded-lg">
@@ -61,9 +73,26 @@ export default function NavBar({ children }) {
                       </div>
                     </Link>
                     </li>
+                  </ul>) :
+                  <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+                  <li>
+                      <Link href={"/userProfile"}>
+                      <div className="font-bold rounded-lg">
+                        My Profile
+                      </div>
+                    </Link>
+                    </li>
+                    <li>
+                      <Link href={"/signout"}>
+                      <div className="font-bold rounded-lg">
+                        Log Out
+                      </div>
+                    </Link>
+                    </li>
                   </ul>
+                  }
                 </div>
-                <div className="dropdown dropdown-end">
+                <div className="dropdown dropdown-hover">
                   <div tabIndex={0} role="button" className="btn btn-ghost rounded-btn text-xl">Employee Portal</div>
                   <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
                     <li>
