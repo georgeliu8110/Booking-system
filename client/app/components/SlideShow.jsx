@@ -5,8 +5,11 @@ import Image from 'next/image';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SlideShow({images}) {
+
+  const router = useRouter();
 
   const slides = [
     { image: '/plumbing1.png', text:'Plumbing Repaires and Maintenance', link:'/companyservices' },
@@ -42,17 +45,20 @@ export default function SlideShow({images}) {
     return () => clearInterval(interval);
   }, [currentIndex]); // Add currentIndex as dependency
 
+  const handleClick = () => {
+    router.push(slides[currentIndex].link);
+  }
+
   return (
     <div className='max-w-[1400px] h-[780px] w-full m-auto py-16 px-4 relative group'>
-      <div
-        style={{ backgroundImage: `url(${slides[currentIndex].image})` }}
-        className='w-full h-full rounded-2xl bg-center bg-cover duration-500 relative flex items-center justify-center'
-      >
-        <div className='text-center bg-black bg-opacity-30 text-white p-4 rounded-lg'>
-          <h2 className='text-5xl mb-2'>{slides[currentIndex].text}</h2>
-          <Link href={slides[currentIndex].link} passHref>
-            <p className='text-blue-400 underline text-xl'>Learn More</p>
-          </Link>
+      <div className="hero min-h-full duration-500" style={{backgroundImage: `url(${slides[currentIndex].image})`}}>
+        <div className="hero-overlay bg-opacity-60"></div>
+         <div className="hero-content text-center text-neutral-content">
+          <div className="max-w-md">
+            <h1 className="mb-5 text-5xl font-bold">{slides[currentIndex].text}</h1>
+            <p className="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+            <button className="btn btn-primary" onClick={handleClick}>Learn More</button>
+          </div>
         </div>
       </div>
       {/* Left Arrow */}

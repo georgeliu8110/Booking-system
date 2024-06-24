@@ -8,27 +8,9 @@ import AppSummary from "./AppSummary";
 import { useContext } from "react";
 import StepContext from '@/app/context/stepContext';
 
-export default function AppointmentPage() {
-
-  const [ customerInput, setCustomerInput ] = useState({
-    service: "",
-    detail: "",
-    serivceDate:"",
-    appointment: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    street: "",
-    apt: "",
-    state: "",
-    city: "",
-    zip: ""
-  })
+export default function AppointmentPage({ customerInput, setCustomerInput, errorInputMessage, setErrorInputMessage}) {
 
   console.log('customerInput ====>', customerInput)
-
-  const [errorInputMessage, setErrorInputMessage] = useState('');
 
   const stepCtx = useContext(StepContext);
   const step = stepCtx.currentStep;
@@ -113,8 +95,8 @@ export default function AppointmentPage() {
       <ul className="steps mb-4">
         <li className={`step ${ step >= 1 ? 'step-primary' : ''}`}>ISSUE</li>
         <li className={`step ${ step >= 2 ? 'step-primary' : ''}`}>DETAILS</li>
-        <li className={`step ${ step >= 3 ? 'step-primary' : ''}`}>CUSTOMER</li>
-        <li className={`step ${ step >= 4 ? 'step-primary' : ''}`}>SCHEDULE</li>
+        <li className={`step ${ step >= 3 ? 'step-primary' : ''}`}>SCHEDULE</li>
+        <li className={`step ${ step >= 4 ? 'step-primary' : ''}`}>CUSTOMER</li>
         <li className={`step ${ step >= 5 ? 'step-primary' : ''}`}>CONFIRM</li>
       </ul>
     </div>

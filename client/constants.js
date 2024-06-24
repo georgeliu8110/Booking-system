@@ -315,4 +315,26 @@ export const partsList = [
     {"id": "p10030", "name": "Union", "quantity": 20, "threshold": 3}
 ]
 
+export const answerAndQuestions = [
+    {
+        "question": "How do I know if I have a leak?",
+        "answer": "If you notice a sudden increase in your water bill, a musty smell, or water stains on your walls or ceiling, you may have a leak. Contact us for a professional inspection."
+    },
+    {
+        "question": "How often should I have my drains cleaned?",
+        "answer": "We recommend having your drains cleaned at least once a year to prevent clogs and keep your plumbing system running smoothly."
+    },
+    {
+        "question": "What should I do if my water heater is leaking?",
+        "answer": "If you notice a leak coming from your water heater, turn off the power and water supply to the unit and contact us immediately. A leaking water heater can cause serious damage to your home."
+    },
+    {
+        "question": "How can I prevent frozen pipes?",
+        "answer": "To prevent frozen pipes, insulate your pipes, keep your home heated to at least 55 degrees, and allow faucets to drip during cold weather. If you suspect your pipes are frozen, contact us for assistance."
+    },
+    {
+        "question": "What should I do if my toilet is overflowing?",
+        "answer": "If your toilet is overflowing, turn off the water supply to the toilet and try using a plunger to clear the clog. If the problem persists, contact us for professional help."
+    }
+]
 
