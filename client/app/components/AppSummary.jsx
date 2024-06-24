@@ -1,8 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import usePostAppointment from "../_hooks/appointments-api/usePostAppointment";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import StepContext from "@/app/context/stepContext";
 
 export default function AppSummary({setCustomerInput, customerInput}) {
+
+  const stepCtx = useContext(StepContext);
 
   const {
     postAppointment,
@@ -40,6 +44,7 @@ export default function AppSummary({setCustomerInput, customerInput}) {
       });
       // console.log("response", response);
       router.push(`/appointmentconfirmed?${params}`);
+      stepCtx.resetStep();
       setCustomerInput({
         service: "",
         detail: "",
