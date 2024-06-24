@@ -48,7 +48,7 @@ export async function POST(request) {
 
     await addOrUpdateAppointment(appointmentData);
 
-    const body = await JSON.stringify(appointmentData.appointmentTime);
+    const body = await JSON.stringify(appointmentData);
     return new Response(body, {
       status: 200,
     });
