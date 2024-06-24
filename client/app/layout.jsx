@@ -7,7 +7,6 @@ import Footer from '@/app/components/Footer';
 export default function RootLayout({ children }) {
 
   return (
-
     <html
       lang="en"
       data-theme="light"
@@ -22,11 +21,12 @@ export default function RootLayout({ children }) {
             </Navbar>
           </ThemeProvider>
           </StepProvider>
-          <Footer />
+          <div className='mt-5'>
+            <Footer />
+          </div>
           </main>
       </body>
     </html>
-
   );
 }
 
