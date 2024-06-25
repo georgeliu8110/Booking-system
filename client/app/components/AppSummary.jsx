@@ -3,6 +3,8 @@ import usePostAppointment from "../_hooks/appointments-api/usePostAppointment";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import StepContext from "@/app/context/stepContext";
+import formatDateForConfirmation from '@/app/utility/formatDateForConfirmation';
+import { timeSlots } from "@/constants";
 
 export default function AppSummary({setCustomerInput, customerInput}) {
 
@@ -38,12 +40,27 @@ export default function AppSummary({setCustomerInput, customerInput}) {
     try {
       const response = await postAppointment(data);
 
+      await fetch('/api/sendConfirmationEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          firstName,
+          date: formatDateForConfirmation(data.appointmentTime.date),
+          appointment: timeSlots[appointment],
+          address: data.customerInfo.address,
+        }),
+      });
+
       //send response data to confirmation page as url param
       const params = new URLSearchParams({
         appointment: JSON.stringify(response),
       });
       // console.log("response", response);
       router.push(`/appointmentconfirmed?${params}`);
+
       stepCtx.resetStep();
       setCustomerInput({
         service: "",
@@ -73,8 +90,8 @@ export default function AppSummary({setCustomerInput, customerInput}) {
         <p className="py-2 text-xl">Name: {firstName + " " + lastName}</p>
         <p className="py-2 text-xl">Phone number: {phone}</p>
         <p className="py-2 text-xl">Selected service: {service.name}</p>
-        <p className="py-2 text-xl">Selected date: {serviceDate}</p>
-        <p className="py-2 text-xl">Selected time: {appointment}</p>
+        <p className="py-2 text-xl">Selected date: {formatDateToUS(serviceDate)}</p>
+        <p className="py-2 text-xl">Selected time: {timeSlots[appointment]}</p>
       </div>
         <button
           className="btn btn-primary mt-8"
