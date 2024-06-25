@@ -38,7 +38,7 @@ function AppointmentInfo() {
           <br />
           <h1 className="text-5xl font-bold">{`Service location: ${parsedApp.customerInfo.address}`}</h1>
           <p className="py-6">You can go to client portal to manage your appointments</p>
-          <button className="btn btn-primary">Get Started</button>
+          <button className="btn btn-primary">View my appointment</button>
         </div>
       </div>
     </div>
