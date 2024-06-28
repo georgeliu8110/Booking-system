@@ -26,6 +26,7 @@ export default function CustomerProfile() {
     state: '',
     zip: '',
   });
+  const [successMessage, setSuccessMessage] = useState(false);
 
   useEffect(() => {
     if (customerInfoData && customerInfoData.length > 0) {
@@ -82,6 +83,10 @@ export default function CustomerProfile() {
 
       const responseData = await response.json();
       console.log('Customer edit info response', responseData);
+      setSuccessMessage(true);
+      setTimeout(() => {
+        setSuccessMessage(false);
+      }, 3000)
 
     } catch (error) {
       console.error('Error:', error);
@@ -92,6 +97,22 @@ export default function CustomerProfile() {
 
   return (
     <>
+    <div className="h-15 relative">
+      <div className={`alert alert-success fixed right-0 bg-green-500 text-white p-4 rounded-l-lg shadow-md transition-transform transform ${successMessage ? 'translate-x-0' : 'translate-x-full'}`} role="alert">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Your purchase has been confirmed!</span>
+      </div>
+    </div>
     <div className="flex w-full pt-10">
     <form className="flex-grow card rounded-box place-items-center gap-8" onSubmit={submitHandler}>
       <div className='col-span-2 py-10'>
