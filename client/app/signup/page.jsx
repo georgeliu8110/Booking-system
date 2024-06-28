@@ -31,7 +31,7 @@ export default function LogUpPage() {
       setSignupEmail('')
       setSignupPassword('')
       if (res) {
-        router.push('/')
+        router.push('/signup/info')
       }
     } catch (error) {
       console.error(error)
