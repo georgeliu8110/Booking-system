@@ -5,13 +5,21 @@ export const dynamic = "force-dynamic"; // have next js NOT cache this request
 
 export async function GET(request) {
   const searchParams = request.nextUrl.searchParams;
-  const date = searchParams.get("date");
+  console.log('searchParams', searchParams  )
+  const date = searchParams.get("date")
+  const email = searchParams.get("email");
+
+  console.log('date', date)
+  console.log('email', email)
 
   try {
-    const querySnapshot = await db.collection("customerInfo").get();
-    const queryData = querySnapshot.docs.map(doc => doc.data())
+    if (date && date !== 'null') {
+      console.log('date gogogog!!!!!', date)
+      const querySnapshot = await db.collection("customerInfo").get();
+      const queryData = querySnapshot.docs.map(doc => doc.data())
 
-    const data = queryData.reduce((acc, customer) => {
+
+      const data = queryData.reduce((acc, customer) => {
       const appointmentForSelectedDate = customer.appointments.find(appointment => appointment.date === date)
       if (appointmentForSelectedDate) {
         acc.push({
@@ -19,7 +27,7 @@ export async function GET(request) {
           time: appointmentForSelectedDate.timeSlot,
           serviceId: appointmentForSelectedDate.serviceId,
           status: appointmentForSelectedDate.status
-         })
+          })
       }
       return acc
     }, [])
@@ -28,6 +36,18 @@ export async function GET(request) {
     return new Response(body, {
       status: 200,
     });
+    } else if (email) {
+      console.log('email gogogog!!!!!', email)
+      const customerRef = db.collection('customerInfo');
+      const customerQuery = await customerRef.where('email', '==', email).get();
+      const customerData = customerQuery.docs.map(doc => doc.data())
+      const data = customerData[0].appointments;
+
+      const body = JSON.stringify({ data });
+      return new Response(body, {
+        status: 200,
+      });
+    }
   } catch (error) {
     const body = JSON.stringify({
       data: [],

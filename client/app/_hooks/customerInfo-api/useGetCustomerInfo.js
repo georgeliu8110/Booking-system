@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function useGetAppointments(date=null, email=null) {
+export default function useGetCustomerInfo(email) {
 	const [data, setData] = useState([]);
 	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -13,21 +13,20 @@ export default function useGetAppointments(date=null, email=null) {
 			try {
 				setIsLoading(true);
 
-				const res = await fetchAppointmentsData({
-					date,
-					email,
+				const res = await fetchCustomberData({
+          email,
 					signal: controller.signal,
 				});
 
 				setError(null);
 				setData(res.data);
-				if (res.data?.status === 500) {
-					setError(res.data.error);
-					setData(null);
-				} else {
-					setData(res.data);
-					setError(null);
-				}
+				// if (res.data?.status === 500) {
+				// 	setError(res.data.error);
+				// 	setData(null);
+				// } else {
+				// 	setData(res.data);
+				// 	setError(null);
+				// }
 
 			} catch (error) {
 
@@ -43,14 +42,14 @@ export default function useGetAppointments(date=null, email=null) {
 		return () => {
 			controller.abort();
 		};
-	}, [date]);
+	}, [email]);
 	return { data, error, isLoading };
 }
 
-async function fetchAppointmentsData({ date, email, signal }) {
-	const params = new URLSearchParams({ date, email });
-	console.log('params', params)
-	const response = await fetch(`/api/appointments?${params}`, { signal });
+async function fetchCustomberData({ email, signal }) {
+
+	const params = new URLSearchParams({ email });
+	const response = await fetch(`/api/customerInfo?${params}`, { signal });
 	if (!response.ok) {
 		throw new Error('Network response was not ok');
 	}

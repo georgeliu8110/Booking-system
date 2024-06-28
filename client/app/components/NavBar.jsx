@@ -76,7 +76,7 @@ export default function NavBar({ children }) {
                   </ul>) :
                   <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
                   <li>
-                      <Link href={"/userProfile"}>
+                      <Link href={"/customerProfilePage"}>
                       <div className="font-bold rounded-lg">
                         My Profile
                       </div>

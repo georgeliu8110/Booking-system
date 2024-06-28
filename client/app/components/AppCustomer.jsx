@@ -1,3 +1,5 @@
+'use client';
+
 import { timeSlots, statesList } from "@/constants";
 
 export default function AppCustomer({setCustomerInput, customerInput}) {
@@ -100,9 +102,6 @@ export default function AppCustomer({setCustomerInput, customerInput}) {
         className="input input-bordered input-lg w-full"
         onChange={zipInputHandler}
       />
-
     </>
-
-
   );
 }
