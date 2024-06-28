@@ -17,14 +17,6 @@ export default function CustomerProfile() {
   const { data: appData, error: appError, isLoading: appLoading } = useGetAppointments(null, user.email);
   const { data: serviceData, error: serviceError, isLoading: serviceLoading } = useGetServices();
 
-  if (loading || customerInfoLoading || appLoading || serviceLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <span className="loading loading-bars loading-lg"></span>
-      </div>
-    );
-  }
-
   const [editCustomerInfo, setEditCustomerInfo] = useState({
     firstName: '',
     lastName: '',
@@ -49,6 +41,14 @@ export default function CustomerProfile() {
       });
     }
   }, [customerInfoData]);
+
+  if (loading || customerInfoLoading || appLoading || serviceLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="loading loading-bars loading-lg"></span>
+      </div>
+    );
+  }
 
   const findServiceName = (serviceId) => {
     if (serviceData && serviceData.length > 0) {
