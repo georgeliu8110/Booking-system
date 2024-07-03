@@ -5,9 +5,8 @@ import useGetCustomerInfo from '@/app/_hooks/customerInfo-api/useGetCustomerInfo
 import { auth } from "@/app/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import useGetAppointments from '@/app/_hooks/appointments-api/useGetAppointments';
-import formatDateForConfirmation from '@/app/utility/formatDateForConfirmation';
-import useGetServices from '@/app/_hooks/service-api/useGetServices';
-import {timeSlots} from '@/constants';
+import CustomerProfileAppCard from '@/app/components/CustomerProfileAppCard';
+import RescheduleAppModal from '@/app/components/RescheduleAppModal';
 
 export default function CustomerProfile() {
 
@@ -15,7 +14,6 @@ export default function CustomerProfile() {
   const [enableEdit, setEnableEdit] = useState(false);
   const {data: customerInfoData, error: customerInfoError, isLoading: customerInfoLoading} = useGetCustomerInfo(user.email);
   const { data: appData, error: appError, isLoading: appLoading } = useGetAppointments(null, user.email);
-  const { data: serviceData, error: serviceError, isLoading: serviceLoading } = useGetServices();
 
   const [editCustomerInfo, setEditCustomerInfo] = useState({
     firstName: '',
@@ -43,18 +41,12 @@ export default function CustomerProfile() {
     }
   }, [customerInfoData]);
 
-  if (loading || customerInfoLoading || appLoading || serviceLoading) {
+  if (loading || customerInfoLoading || appLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <span className="loading loading-bars loading-lg"></span>
       </div>
     );
-  }
-
-  const findServiceName = (serviceId) => {
-    if (serviceData && serviceData.length > 0) {
-      return serviceData.find(service => service.id === serviceId).name;
-    }
   }
 
   const editProfileHandler = () => {
@@ -82,7 +74,7 @@ export default function CustomerProfile() {
       }
 
       const responseData = await response.json();
-      console.log('Customer edit info response', responseData);
+
       setSuccessMessage(true);
       setTimeout(() => {
         setSuccessMessage(false);
@@ -93,7 +85,6 @@ export default function CustomerProfile() {
     }
 
     };
-
 
   return (
     <>
@@ -110,11 +101,11 @@ export default function CustomerProfile() {
             strokeWidth="2"
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span>Your purchase has been confirmed!</span>
+        <span>Your changes have been saved!</span>
       </div>
     </div>
-    <div className="flex w-full pt-10">
-    <form className="flex-grow card rounded-box place-items-center gap-8" onSubmit={submitHandler}>
+    <div className="flex pt-10">
+    <form className="flex-grow card rounded-box place-items-center gap-8 h-full " onSubmit={submitHandler}>
       <div className='col-span-2 py-10'>
         <h1 className='text-center font-bold text-3xl'>My Profile</h1>
       </div>
@@ -153,24 +144,17 @@ export default function CustomerProfile() {
       <button type={!enableEdit? 'submit' : 'button'} className="btn ring-2" onClick={editProfileHandler}>{enableEdit ? 'Save' : 'Edit My Profile'}</button>
     </form>
       <div className="divider divider-horizontal"></div>
-      <div className="grid card rounded-box place-items-center m-5 px-10">
-        <h1 className="text-center font-bold text-3xl">My Appointments</h1>
-        {appData.map((app, index) => {
-        return (
-          <div className="card bg-gray-200 w-96 shadow-xl">
-            <div className="card-body">
-              <h2 className="card-title">Appointment #{index+1}</h2>
-              <p>Date: {formatDateForConfirmation(app.date)}</p>
-              <p>Service: {findServiceName(app.serviceId)}</p>
-              <p>Time: {timeSlots[app.timeSlot]}</p>
-              <div className="card-actions justify-center mt-3">
-                <button className="btn btn-primary px-7">Cancel</button>
-                <button className="btn btn-primary">Reschedule</button>
-              </div>
-            </div>
-          </div>
-        )
-      })}
+      <div>
+        <h1 className="text-center font-bold text-3xl my-10 ">My Appointments</h1>
+        <div className="grid card rounded-box place-items-center mx-20 px-40 h-[820px] overflow-y-auto">
+          {appData.map((app, index) => {
+          return (
+            <>
+            <CustomerProfileAppCard app={app} index={index} user={user}/>
+            </>
+          )
+        })}
+        </div>
       </div>
     </div>
     </>

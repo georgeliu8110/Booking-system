@@ -3,7 +3,7 @@ import usePostAppointment from "../_hooks/appointments-api/usePostAppointment";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import StepContext from "@/app/context/stepContext";
-import formatDateForConfirmation from '@/app/utility/formatDateForConfirmation';
+import {formatDateForConfirmation} from '@/app/utility/formatDateForConfirmation';
 import { timeSlots } from "@/constants";
 
 export default function AppSummary({setCustomerInput, customerInput}) {

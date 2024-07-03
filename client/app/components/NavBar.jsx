@@ -14,8 +14,6 @@ import AppointmentModal from '@/app/components/AppointmentModal';
 export default function NavBar({ children }) {
   const [user, loading, error] = useAuthState(auth);
 
-  console.log("user", user);
-
   useDrift();
   const [shouldUseDrift, setShouldUseDrift] = useState(true);
   const pathname = usePathname();

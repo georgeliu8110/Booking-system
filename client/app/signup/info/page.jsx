@@ -29,8 +29,6 @@ export default function SignUpInfoPage() {
       body: JSON.stringify(customerSignUpInfo)
     })
 
-    console.log('res ====>', res)
-
     if (!res.ok) {
       console.log('error')
       return

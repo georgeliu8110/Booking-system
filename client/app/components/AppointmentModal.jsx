@@ -12,7 +12,7 @@ export default function AppointmentModal() {
     service: "",
     detail: "",
     images: [],
-    serivceDate:"",
+    serviceDate:"",
     appointment: "",
     firstName: "",
     lastName: "",
