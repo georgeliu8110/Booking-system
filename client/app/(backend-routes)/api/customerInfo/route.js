@@ -46,7 +46,7 @@ export async function GET (request) {
 
 export async function PUT (request) {
   const customerInfo = await request.json();
-  console.log('customerInfo put!!!!!@@@@@@', customerInfo)
+
   try {
     const data = await updateCustomer(customerInfo);
     const body = JSON.stringify({ data });
