@@ -1,4 +1,4 @@
-function formatDateForConfirmation(dateString) {
+export function formatDateForConfirmation(dateString) {
 
   const month = parseInt(dateString.slice(0, 2), 10);
   const day = parseInt(dateString.slice(2, 4), 10);
@@ -21,5 +21,33 @@ function formatDateForConfirmation(dateString) {
   return `${dayName} ${monthName} ${dateNum}, ${yearNum}`;
 }
 
+export function formatDate(startDate) {
+  const formattedDate = startDate.split("-");
 
-export default formatDateForConfirmation;
+  console.log("formattedDate", formattedDate)
+
+  let [year, month, day] = formattedDate;
+  if (month.length === 1 ) {
+    month = "0" + month;
+  }
+  if (day.length === 1) {
+    day = "0" + day;
+  }
+  const dateWithNoHyphens = month + day + year;
+  return dateWithNoHyphens;
+}
+
+export function formatDateToUS(startDate) {
+  console.log("startDate", startDate)
+  const formattedDate = startDate.split("-");
+
+  let [year, month, day] = formattedDate;
+  if (month.length === 1) {
+    month = "0" + month;
+  }
+  if (day.length === 1) {
+    day = "0" + day;
+  }
+  return `${month}/${day}/${year}`;
+}
+
