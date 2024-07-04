@@ -26,14 +26,14 @@ export default function InventoryPage() {
        const searchResultById = partsDataFromApi.filter((part) => part.id.includes(searchInput))
        const searchResultByName = partsDataFromApi.filter((part) => part.name.toLowerCase().includes(searchInput))
        const finalResult = [...searchResultById, ...searchResultByName]
-       setPartsData(prev => finalResult);
+       setPartsData(finalResult);
     }, [searchInput])
 
     useEffect(() => {
         if (partsDataFromApi && partsDataFromApi.length > 0) {
             setPartsData(partsDataFromApi);
             const nextId = String(Number(partsDataFromApi[partsDataFromApi.length - 1]?.id.split('p')[1]) + 1);
-            setDefaultPartInputFields(prev => prev[0].id === ''? [...prev, prev[0].id = 'p' + nextId]: prev )
+            setDefaultPartInputFields(prev => prev[0].id === ''? [{...prev[0], id: 'p' + nextId}]: prev )
         }
     }, [partsDataFromApi, refreshTrigger]);
 
