@@ -4,6 +4,7 @@ import useUpdatePart from "@/app/_hooks/part-api/useUpdatePart";
 import { partsAttributes } from "@/constants"
 import { useEffect, useState } from "react";
 import NewInvInput from '@/app/components/NewInvInput';
+// import { uuidv4 } from '@/app/utility/uuidv4';
 
 export default function InventoryPage() {
     const [partsData, setPartsData] = useState([]);
@@ -19,14 +20,17 @@ export default function InventoryPage() {
     const inventoryPerPage = 6;
     const indexOfLastInventory = currentPage * inventoryPerPage;
     const indexOfFirstInventory = indexOfLastInventory - inventoryPerPage;
-    const currentInventory = partsData.slice(indexOfFirstInventory, indexOfLastInventory);
-    const totalPages = Math.ceil(partsData.length / inventoryPerPage);
+    let currentInventory = partsData.slice(indexOfFirstInventory, indexOfLastInventory);
+    let totalPages = Math.ceil(partsData.length / inventoryPerPage);
 
     useEffect(() => {
        const searchResultById = partsDataFromApi.filter((part) => part.id.includes(searchInput))
        const searchResultByName = partsDataFromApi.filter((part) => part.name.toLowerCase().includes(searchInput))
        const finalResult = [...searchResultById, ...searchResultByName]
        setPartsData(finalResult);
+       setCurrentPage(1);
+       currentInventory = partsData.slice(indexOfFirstInventory, indexOfLastInventory);
+       totalPages = Math.ceil(partsData.length / inventoryPerPage);
     }, [searchInput])
 
     useEffect(() => {
