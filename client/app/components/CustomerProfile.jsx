@@ -111,35 +111,35 @@ export default function CustomerProfile() {
       </div>
         <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         First Name:
-        <input type="text" className="grow" value={editCustomerInfo.firstName} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, firstName: e.target.value}))}/>
+        <input type="text" name='first_name' className="grow" value={editCustomerInfo.firstName} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, firstName: e.target.value}))}/>
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         Last Name:
-        <input type="text" className="grow" value={editCustomerInfo.lastName} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, lastName: e.target.value}))}/>
+        <input type="text" name='last_name' className="grow" value={editCustomerInfo.lastName} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, lastName: e.target.value}))}/>
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         Email
-        <input type="text" className="grow" disabled value={editCustomerInfo.email} />
+        <input type="text" name='email' className="grow" disabled value={editCustomerInfo.email} />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         Phone:
-        <input type="text" className="grow" value={editCustomerInfo.phone} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, phone: e.target.value}))}/>
+        <input type="text" name='phone' className="grow" value={editCustomerInfo.phone} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, phone: e.target.value}))}/>
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         Street:
-        <input type="text" className="grow" value={editCustomerInfo.street} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, street: e.target.value}))}/>
+        <input type="text" name='street' className="grow" value={editCustomerInfo.street} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, street: e.target.value}))}/>
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         City:
-        <input type="text" className="grow" value={editCustomerInfo.city} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, city: e.target.value}))} />
+        <input type="text" name='city' className="grow" value={editCustomerInfo.city} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, city: e.target.value}))} />
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         State:
-        <input type="text" className="grow" value={editCustomerInfo.state} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, state: e.target.value}))}/>
+        <input type="text" name='state' className="grow" value={editCustomerInfo.state} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, state: e.target.value}))}/>
       </label>
       <label className="input input-bordered flex items-center gap-2 w-full max-w-sm">
         Zip:
-        <input type="text" className="grow" value={editCustomerInfo.zip} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, zip: e.target.value}))}/>
+        <input type="text" name='zip' className="grow" value={editCustomerInfo.zip} disabled={!enableEdit} onChange={(e) => setEditCustomerInfo((prev) => ({...prev, zip: e.target.value}))}/>
       </label>
       <button type={!enableEdit? 'submit' : 'button'} className="btn ring-2" onClick={editProfileHandler}>{enableEdit ? 'Save' : 'Edit My Profile'}</button>
     </form>
