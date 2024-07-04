@@ -74,7 +74,7 @@ export default function InventoryPage() {
 
     const addDefaultPartInputFileds = () => {
         setDefaultPartInputFields(prev => {
-          return [...prev, {id: prev.length >= 1? ('p' + (+prev[prev.length - 1].id.split('p')[1] + 1)) : ('p' + (+partsDataFromApi[partsDataFromApi.length - 1].id.split('p')[1] + 1)), name:'', quantity:0, threshold:0}]
+          return [...prev, {id: prev.length >= 1? ('p' + (+prev[prev.length - 1]?.id.split('p')[1] + 1)) : ('p' + (+partsDataFromApi[partsDataFromApi.length - 1]?.id.split('p')[1] + 1)), name:'', quantity:0, threshold:0}]
         })
     }
 
@@ -99,7 +99,7 @@ export default function InventoryPage() {
 
             if (response.ok) {
                 setTimeout(() => {
-                    setDefaultPartInputFields(prev => [{ id: 'p' + (+prev[prev.length - 1].id.split('p')[1] + 1), name: '', quantity: 0, threshold: 0 }]);
+                    setDefaultPartInputFields(prev => [{ id: 'p' + (+prev[prev.length - 1]?.id.split('p')[1] + 1), name: '', quantity: 0, threshold: 0 }]);
                     setRefreshTrigger(prev => prev + 1)
                 }, 500)
 
