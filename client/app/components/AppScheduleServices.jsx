@@ -42,9 +42,10 @@ export default function AppScheduleServices({setCustomerInput, customerInput}) {
             <h3 className="card-title text-white">Please select the date</h3>
             <input
               type='date'
+              name='serviceDate'
               className="text-black w-full"
               value={startDate}
-              min={new Date().toISOString().split('T')[0]}
+              min={new Date().toLocaleDateString('en-CA')}
               onChange={serviceDateHandler}>
             </input>
           </div>
