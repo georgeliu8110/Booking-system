@@ -47,7 +47,7 @@ export default function CustomerProfileAppCard({app, index, user}) {
   }
 
   return (
-    <div className="card bg-gray-200 w-96 shadow-xl mb-5">
+    <div className="grid card bg-gray-200 w-96 shadow-xl mb-5">
       <RescheduleAppModal appData={appData} setAppData={setAppData} setAppStatus={setAppStatus}/>
       <div className="card-body">
         <h2 className="card-title">Appointment #{index+1} <span className="badge badge-neutral">{appStatus}</span></h2>
