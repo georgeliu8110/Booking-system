@@ -5,6 +5,7 @@ import Image from 'next/image';
 import SlideShow from '@/app/components/SlideShow';
 import AboutUs from '@/app/components/AboutUs';
 import FAQ from '@/app/components/FAQ';
+import WhyUs from '@/app/components/WhyUs';
 
 export default function Home() {
 	return (
@@ -22,8 +23,11 @@ export default function Home() {
         <div className='flex justify-center w-full mb-auto mt-10'>
           <SlideShow />
         </div>
-				<div className='w-full max-w-7xl mt-10 px-4'>
+				<div className='w-full max-w-7xl mt-10 px-4 h-full'>
 				  <AboutUs />
+				</div>
+				<div className='w-full max-w-7xl mt-10 px-4'>
+				  <WhyUs />
 				</div>
 				<div className='w-full max-w-7xl mt-10 px-4'>
 				<FAQ />
