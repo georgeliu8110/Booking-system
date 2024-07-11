@@ -1,4 +1,4 @@
-import { storage } from '@/app/firebase/config';
+import { storage } from '@/app/lib/firebase/config';
 import { ref, uploadBytes} from 'firebase/storage';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { storage } from '@/app/firebase/config';
+import { storage } from '@/app/lib/firebase/config';
 import {ref, uploadBytesResumable, getDownloadURL} from 'firebase/storage';
 import { useContext } from 'react';
 

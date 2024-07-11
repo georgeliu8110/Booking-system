@@ -1,4 +1,4 @@
-import {db} from '@/app/firestore/config.js';
+import {db} from '@/app/lib/firestore/config.js';
 
 export async function POST (request) {
   const customerInfo = await request.json();

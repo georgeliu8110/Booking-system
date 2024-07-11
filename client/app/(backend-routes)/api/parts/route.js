@@ -1,6 +1,6 @@
 // import { mockData } from "@/app/utility/mockData/mockAppointmentApi";
 // import { mockPartsData } from "@/app/utility/mockData/mockGetPartsApi";
-import { db } from "@/app/firestore/config";
+import { db } from "@/app/lib/firestore/config";
 
 const API_URL = process.env.API_URL;
 const LOC = "/api/parts/";

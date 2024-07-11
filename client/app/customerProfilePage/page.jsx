@@ -1,7 +1,7 @@
 'use client';
 
 import CustomerProfile from '@/app/components/CustomerProfile';
-import { auth } from "@/app/firebase/config";
+import { auth } from "@/app/lib/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {redirect} from 'next/navigation';
 
