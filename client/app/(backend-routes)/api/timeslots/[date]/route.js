@@ -1,4 +1,4 @@
-import { db } from "@/app/firestore/config";
+import { db } from "@/app/lib/firestore/config";
 
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
 export async function GET(request, { params }) {

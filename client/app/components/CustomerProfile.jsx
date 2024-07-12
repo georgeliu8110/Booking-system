@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy} from 'react';
 import useGetCustomerInfo from '@/app/_hooks/customerInfo-api/useGetCustomerInfo';
-import { auth } from "@/app/firebase/config";
+import { auth } from "@/app/lib/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import useGetAppointments from '@/app/_hooks/appointments-api/useGetAppointments';
-import CustomerProfileAppCard from '@/app/components/CustomerProfileAppCard';
 import RescheduleAppModal from '@/app/components/RescheduleAppModal';
+
+const CustomerProfileAppCard = lazy(() => import('@/app/components/CustomerProfileAppCard'));
 
 export default function CustomerProfile() {
 
@@ -146,11 +147,13 @@ export default function CustomerProfile() {
       <div className="divider divider-horizontal"></div>
       <div>
         <h1 className="text-center font-bold text-3xl my-10 ">My Appointments</h1>
-        <div className="grid card rounded-box place-items-center mx-20 px-40 h-[820px] overflow-y-auto">
+        <div className="grid grid-cols-2 gap-3 card rounded-box place-items-center mx-10 px-20 h-[820px] overflow-y-auto">
           {appData.map((app, index) => {
           return (
             <>
-            <CustomerProfileAppCard app={app} index={index} user={user}/>
+            <Suspense fallback={<span className="loading loading-dots loading-md"></span>}>
+               <CustomerProfileAppCard app={app} index={index} user={user}/>
+            </Suspense>
             </>
           )
         })}

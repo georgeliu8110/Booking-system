@@ -2,7 +2,7 @@
 
 import { useState, useEffect} from 'react'
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth } from '../firebase/config'
+import { auth } from '../lib/firebase/config'
 import { useRouter } from 'next/navigation'
 
 export default function LogUpPage() {

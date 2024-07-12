@@ -5,7 +5,10 @@ import { formatDate } from "../utility/formatDateUtil";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { app } from "../firebase/config";
+import { app, auth} from "../lib/firebase/config";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import {formatDateForConfirmation} from '@/app/utility/formatDateForConfirmation';
 
 export default function AppConfirmation() {
@@ -21,6 +24,50 @@ function AppointmentInfo() {
   const searchParams = useSearchParams();
   const appointment = searchParams.get("appointment");
   const parsedApp = JSON.parse(appointment);
+  const [user] = useAuthState(auth);
+
+  const addEvent = async (eventDetails) => {
+
+       if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
+
+    try {
+      const idToken = await user.getIdToken();
+      const response = await fetch('/api/addEvent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`,
+        },
+        body: JSON.stringify(eventDetails),
+      });
+
+      const data = await response.json();
+      console.log('Event added:', data);
+    } catch (error) {
+      console.error('Error adding event:', error);
+    }
+  };
+
+
+  const addAppointmentToCalendarHandler = async () => {
+    const eventDetails = {
+      summary: 'Meeting with Bob',
+      description: 'Discuss project updates',
+      start: {
+        dateTime: '2024-07-08T10:00:00-07:00',
+        timeZone: 'America/Los_Angeles',
+      },
+      end: {
+        dateTime: '2024-07-08T11:00:00-07:00',
+        timeZone: 'America/Los_Angeles',
+      },
+    };
+
+    await addEvent(eventDetails);
+  }
 
 
   return (
@@ -42,7 +89,8 @@ function AppointmentInfo() {
           <h1 className="text-5xl font-bold underline">{`${parsedApp.customerInfo.address}`}</h1>
           <br />
           <p className="py-6">You can go to client portal to manage your appointments</p>
-          <Link href='/customerProfilePage'><button className="btn btn-primary">View my appointment</button></Link>
+          <Link href='/customerProfilePage'><button className="btn btn-primary">View my appointments</button></Link>
+          <button className="btn btn-primary ml-6" onClick={addAppointmentToCalendarHandler}>Add to my calendar</button>
         </div>
       </div>
     </div>

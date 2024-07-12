@@ -2,7 +2,7 @@
 
 import AppScheduleServices from "@/app/components/AppScheduleServices";
 import { useState} from "react";
-import { auth } from "@/app/firebase/config";
+import { auth } from "@/app/lib/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { formatDate } from "@/app/utility/formatDateForConfirmation";
 

@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import { db, FieldValue } from "@/app/firestore/config";
+import { db, FieldValue } from "@/app/lib/firestore/config";
 
 export const dynamic = "force-dynamic"; // have next js NOT cache this request
 

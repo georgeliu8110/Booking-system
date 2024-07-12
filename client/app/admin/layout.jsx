@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { sideNavItems } from '@/constants';
 import { usePathname } from 'next/navigation';
-import { auth } from '../firebase/config';
+import { auth } from '../lib/firebase/config';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';

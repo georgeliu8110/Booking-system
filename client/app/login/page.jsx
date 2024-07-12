@@ -2,9 +2,10 @@
 
 import { useState, useEffect} from 'react'
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth } from '../firebase/config'
+import { auth, firestore } from '../lib/firebase/config'
 import { useRouter } from 'next/navigation'
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, getAuth} from "firebase/auth";
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function LoginPage() {
 
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] = useSignInWithEmailAndPassword(auth);
   const [signInAlert, setSignInAlert] = useState('')
   const [user, loading, error] = useAuthState(auth);
+
   const router = useRouter()
 
   useEffect(() => {
@@ -39,18 +41,33 @@ export default function LoginPage() {
     }
   }
 
+
+
   const handleGoogleSignIn = async (e) => {
+
     const provider = new GoogleAuthProvider();
+    provider.addScope('https://www.googleapis.com/auth/calendar.events');
+    provider.addScope('https://www.googleapis.com/auth/calendar');
+    provider.addScope('https://www.googleapis.com/auth/calendar.readonly');
     provider.setCustomParameters({ prompt: 'select_account' });
+
     try {
-      const res = await signInWithPopup(auth, provider)
-      if (res) {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken; // OAuth token
+      const user = result.user;
+
+         // Store the OAuth token in Firestore
+        await setDoc(doc(firestore, 'users', user.uid), {
+        googleOAuthToken: accessToken,
+      });
+
+      console.log('User signed in and token obtained:', accessToken);
+      if (result) {
         router.push('/')
       }
-
-    }
-    catch (error) {
-      console.error(error)
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
     }
    }
 

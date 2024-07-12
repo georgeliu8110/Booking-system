@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/app/firebase/config";
+import { auth } from "@/app/lib/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
