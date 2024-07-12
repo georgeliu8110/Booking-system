@@ -10,12 +10,14 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import {formatDateForConfirmation} from '@/app/utility/formatDateForConfirmation';
+import useGetServices from '@/app/_hooks/service-api/useGetServices';
+import formatDateToISO from '@/app/utility/formatDateToISO';
 
 export default function AppConfirmation() {
   return (
-    <Suspense fallback={<p>Loading ... </p>}>
-      <AppointmentInfo />
-    </Suspense>
+    <>
+    <AppointmentInfo />
+    </>
   );
 }
 
@@ -25,10 +27,22 @@ function AppointmentInfo() {
   const appointment = searchParams.get("appointment");
   const parsedApp = JSON.parse(appointment);
   const [user] = useAuthState(auth);
+  const { data: serviceData, isLoading, error: serviceError } = useGetServices();
+
+  if (isLoading || serviceData.length === 0) {
+
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="loading loading-bars loading-lg">hahahaha</span>
+      </div>
+    );
+  }
+
+  const serviceName = serviceData.find(service => service.id === parsedApp.appointmentTime.serviceId)?.name
 
   const addEvent = async (eventDetails) => {
 
-       if (!user) {
+    if (!user) {
       console.error('User not authenticated');
       return;
     }
@@ -53,16 +67,34 @@ function AppointmentInfo() {
 
 
   const addAppointmentToCalendarHandler = async () => {
+
+    const startAndEndTime = (timeString) => {
+      const time = timeSlots[timeString].split('-');
+      const start = time[0].includes('am') ? `${time[0].replace('am', '')}` : String(Number(`${time[0].replace('pm', '')}`) + 12);
+      const formattedStartTime = start.length === 1 ? `0${start}:00:00` : `${start}:00:00`;
+      const end = time[1].includes('am') ? `${time[1].replace('am', '')}` : String(Number(`${time[1].replace('pm', '')}`) + 12);
+      const formattedEndTime = end.length === 1 ? `0${end}:00:00` : `${end}:00:00`;
+
+      return {
+        formattedStartTime,
+        formattedEndTime,
+      }
+    }
+
+    const time = startAndEndTime(parsedApp.appointmentTime.timeSlot);
+    const startDateTime = formatDateToISO(parsedApp.appointmentTime.date, time.formattedStartTime, '-05:00');
+    const endDateTime = formatDateToISO(parsedApp.appointmentTime.date, time.formattedEndTime, '-05:00');
+
     const eventDetails = {
-      summary: 'Meeting with Bob',
-      description: 'Discuss project updates',
+      summary: 'Plumbing Service',
+      description: `Service: ${serviceName}`,
       start: {
-        dateTime: '2024-07-08T10:00:00-07:00',
-        timeZone: 'America/Los_Angeles',
+        dateTime: startDateTime,
+        timeZone: 'America/Chicago',
       },
       end: {
-        dateTime: '2024-07-08T11:00:00-07:00',
-        timeZone: 'America/Los_Angeles',
+        dateTime: endDateTime,
+        timeZone: 'America/Chicago',
       },
     };
 
@@ -74,19 +106,24 @@ function AppointmentInfo() {
     <>
     <div className="hero h-full mt-auto mb-auto py-10">
       <div className="hero-content flex-col lg:flex-row">
-        <img src="tick.png" className="max-w-sm " />
-        <div className='ml-10'>
+        <img src="tick.png" className="max-w-sm mr-10 pr-5" />
+        <div className='ml-10 pl-10'>
           <h1 className="text-4xl">{`Hi ${parsedApp.customerInfo.name}! Your following appointment is confirmed:`}</h1>
           <br />
           <br />
-          <h1 className="text-5xl">{`Time:`}</h1>
+          <h1 className="text-5xl underline">{`Time:`}</h1>
           <br />
-          <h1 className="text-5xl font-bold underline">{`${formatDateForConfirmation(parsedApp.appointmentTime.date)} ${timeSlots[parsedApp.appointmentTime.timeSlot]}`}</h1>
+          <h1 className="text-5xl font-bold">{`${formatDateForConfirmation(parsedApp.appointmentTime.date)} ${timeSlots[parsedApp.appointmentTime.timeSlot]}`}</h1>
           <br />
           <br />
-          <h1 className="text-5xl">{`Service location:`}</h1>
+          <h1 className="text-5xl underline">{`Service:`}</h1>
           <br />
-          <h1 className="text-5xl font-bold underline">{`${parsedApp.customerInfo.address}`}</h1>
+          <h1 className="text-5xl font-bold">{`${serviceName}`}</h1>
+          <br />
+          <br />
+          <h1 className="text-5xl underline">{`Location:`}</h1>
+          <br />
+          <h1 className="text-5xl font-bold ">{`${parsedApp.customerInfo.address}`}</h1>
           <br />
           <p className="py-6">You can go to client portal to manage your appointments</p>
           <Link href='/customerProfilePage'><button className="btn btn-primary">View my appointments</button></Link>
