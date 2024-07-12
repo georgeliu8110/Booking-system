@@ -2,7 +2,7 @@
 
 import { useState, useEffect} from 'react'
 import { useSendPasswordResetEmail, useAuthState, useUpdateEmail} from 'react-firebase-hooks/auth'
-import { auth } from '../firebase/config'
+import { auth } from '../lib/firebase/config'
 import { useRouter } from 'next/navigation'
 import {  fetchSignInMethodsForEmail } from 'firebase/auth';
 
