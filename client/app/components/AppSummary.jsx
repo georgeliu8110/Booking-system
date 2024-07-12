@@ -106,8 +106,6 @@ export default function AppSummary({setCustomerInput, customerInput}) {
 function formatDate(startDate) {
   const formattedDate = startDate.split("-");
 
-  console.log("formattedDate", formattedDate)
-
   let [year, month, day] = formattedDate;
   if (month.length === 1 ) {
     month = "0" + month;
@@ -120,7 +118,7 @@ function formatDate(startDate) {
 }
 
 function formatDateToUS(startDate) {
-  console.log("startDate", startDate)
+
   const formattedDate = startDate.split("-");
 
   let [year, month, day] = formattedDate;
