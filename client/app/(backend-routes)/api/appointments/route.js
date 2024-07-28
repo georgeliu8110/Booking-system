@@ -19,9 +19,20 @@ export async function GET(request) {
       if (appointmentForSelectedDate) {
         acc.push({
           name: customer.name,
+          address: customer.address,
+          email: customer.email,
+          phoneNumber: customer.phoneNumber,
+          date: appointmentForSelectedDate.date,
           time: appointmentForSelectedDate.timeSlot,
           serviceId: appointmentForSelectedDate.serviceId,
-          status: appointmentForSelectedDate.status
+          status: appointmentForSelectedDate.status,
+          appId: appointmentForSelectedDate.confirmationNumber,
+          detail: appointmentForSelectedDate.detail,
+          images: appointmentForSelectedDate.images,
+          status: appointmentForSelectedDate.status,
+          signature: appointmentForSelectedDate.signature,
+          technician: appointmentForSelectedDate.technician,
+          inovice: appointmentForSelectedDate.invoice,
           })
       }
       return acc
@@ -168,9 +179,6 @@ async function addAppointment(appointmentData) {
 }
 
 async function deleteAppointment(id, email) {
-
-console.log('id', id)
-console.log('email', email)
 
   try {
     const customerQuerySnapshot = await db.collection('customerInfo').where('email', '==', email).get();
