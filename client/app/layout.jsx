@@ -3,6 +3,7 @@ import { ThemeProvider } from 'next-themes'
 import Navbar from '@/app/components/NavBar';
 import {StepProvider} from '@/app/context/stepContext';
 import Footer from '@/app/components/Footer';
+import '@/polyfills.mjs';
 
 export default function RootLayout({ children }) {
 
