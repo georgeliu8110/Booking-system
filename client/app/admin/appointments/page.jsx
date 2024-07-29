@@ -104,7 +104,7 @@ export default function AppointmentsPage() {
 											<button className="btn btn-success text-xs" onClick={() => document.getElementById(appointment.email).showModal()}>See Details</button>
 										</td>
 										<td>
-											<button className="btn btn-link text-3xl" onClick={() => document.getElementById(`appAction${index}`).showModal()}><FaArrowCircleRight /></button>
+											<button className="btn btn-link text-3xl" onClick={() => document.getElementById(`appAction${index}${appointment.appId}`).showModal()}><FaArrowCircleRight /></button>
 										</td>
 									</tr>
 									</>
