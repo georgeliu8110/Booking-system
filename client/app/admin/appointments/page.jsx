@@ -10,6 +10,10 @@ import { mockData } from '@/app/utility/mockData/mockGetAppointmentsApi';
 import { appointmentAttributes } from '@/constants';
 import { formatDateWithNoSlash } from '@/app/utility/formatDateWithNoSlash';
 import useGetParts from '@/app/_hooks/part-api/useGetParts';
+import Link from 'next/link';
+import AdminAppDetailModal from '@/app/components/AdminAppDetailModal';
+import { FaArrowCircleRight } from "react-icons/fa";
+import AdminAppActionModal from '@/app/components/AdminAppActionModal';
 
 export default function AppointmentsPage() {
 	const [startDate, setStartDate] = useState(new Date().toLocaleDateString());
@@ -29,7 +33,7 @@ export default function AppointmentsPage() {
 	};
 
 	const getPartsDataFromCollection = (partsIds) => {
-		let parts = partsData?.filter((part) => partsIds.includes(part.id));
+		let parts = partsData?.filter((part) => partsIds?.includes(part.id));
 		return parts?.map((part) => part.name).join(', ');
 	};
 	const indexOfLastAppointment = currentPage * appointmentsPerPage;
@@ -43,6 +47,8 @@ export default function AppointmentsPage() {
 				: appointmentsListData;
 		totalPages = Math.ceil(appointmentsListData.length / appointmentsPerPage);
 	}
+
+	console.log('currentAppointments', currentAppointments);
 
 	return (
 		<>
@@ -70,21 +76,43 @@ export default function AppointmentsPage() {
 					<tbody>
 						{currentAppointments.length !==0 ? (
 							currentAppointments.map((appointment, index) => {
+								console.log('appointment', appointment)
+								const appDetail = {
+									timeSlot: timeSlots[appointment.time],
+									service: getServicesDataFromCollection(appointment.serviceId)?.name,
+									partsNeeded: getPartsDataFromCollection(getServicesDataFromCollection(appointment.serviceId)?.partsNeeded),
+								}
 								return (
+									<>
+									<AdminAppDetailModal appointment={appointment} appDetail={appDetail}/>
+									<AdminAppActionModal appointment={appointment} appDetail={appDetail} index={index}/>
 									<tr key={index} className='border-gray-300 text-black font-medium dark:text-white'>
 										<th>{indexOfFirstAppointment + index + 1}</th>
 										<td>{appointment.name}</td>
-										<td>{timeSlots[appointment.time]}</td>
-										<td>{getServicesDataFromCollection(appointment.serviceId)?.name}</td>
+										<td>{appDetail.timeSlot}</td>
+										<td>{appDetail.service}</td>
 										<td>
-											{getPartsDataFromCollection(getServicesDataFromCollection(appointment.serviceId)?.partsNeeded)}
+											{appDetail.partsNeeded}
+										</td>
+										<td>
+											{appointment.status}
+										</td>
+										<td>
+											{appointment.technician}
+										</td>
+										<td>
+											<button className="btn btn-success text-xs" onClick={() => document.getElementById(appointment.email).showModal()}>See Details</button>
+										</td>
+										<td>
+											<button className="btn btn-link text-3xl" onClick={() => document.getElementById(`appAction${index}${appointment.appId}`).showModal()}><FaArrowCircleRight /></button>
 										</td>
 									</tr>
+									</>
 								);
 							})
 						) : (
 							<tr className="hover">
-								<td colSpan='5' className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No appointments for today!</td>
+								<td colSpan='8' className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No appointments for today!</td>
 							</tr>
 						)}
 					</tbody>

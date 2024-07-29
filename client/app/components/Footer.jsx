@@ -17,6 +17,7 @@ export default function Footer() {
       </nav>
       <aside>
         <p>Copyright © 2024 - All right reserved by Broken Pipe Plumbing Inc</p>
+        <p>13729 N Central Expy, Dallas, TX 75243</p>
       </aside>
     </footer>
     </>

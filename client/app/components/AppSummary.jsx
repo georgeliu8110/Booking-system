@@ -17,7 +17,7 @@ export default function AppSummary({setCustomerInput, customerInput}) {
   } = usePostAppointment();
   const router = useRouter();
 
-  const { service, serviceDate, detail, appointment, firstName, lastName, email, phone, street, apt, state, city, zip } = customerInput;
+  const { service, serviceDate, detail, images, appointment, firstName, lastName, email, phone, street, apt, state, city, zip } = customerInput;
 
   const bookAppointment = async () => {
 
@@ -26,11 +26,13 @@ export default function AppSummary({setCustomerInput, customerInput}) {
         date: formatDate(serviceDate),
         timeSlot: appointment,
         serviceId: service.id,
-        status: "pending",
-        confirmationNumber: uuidv4()
+        status: "Unassigned",
+        confirmationNumber: uuidv4(),
+        images: images,
+        detail: detail,
       },
       customerInfo: {
-        address: street + " " + apt,
+        address: `${street} ${apt}, ${city}, ${state} ${zip}`,
         name: firstName + " " + lastName,
         phoneNumber: phone,
         email: email,
@@ -58,7 +60,7 @@ export default function AppSummary({setCustomerInput, customerInput}) {
       const params = new URLSearchParams({
         appointment: JSON.stringify(response),
       });
-      // console.log("response", response);
+
       router.push(`/appointmentconfirmed?${params}`);
 
       stepCtx.resetStep();
