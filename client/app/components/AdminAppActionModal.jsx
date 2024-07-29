@@ -11,7 +11,7 @@ export default function AdminAppActionModal({appointment, appDetail, index}) {
 
 
   return (
-    <dialog id={`appAction${index}`} className="modal min-w-96 w-full">
+    <dialog id={`appAction${index}${appointment.appId}`} className="modal min-w-96 w-full">
       <div className="modal-box w-full">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
