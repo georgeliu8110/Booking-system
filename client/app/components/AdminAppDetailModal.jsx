@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function AdminAppDetailModal({appointment, appDetail}) {
+export default function AdminAppDetailModal({appointment, appDetail, index}) {
 
   const [ status, setStatus ] = useState(appointment.status);
   const [ updateLoading, setUpdateLoading ] = useState(false);
@@ -42,7 +42,7 @@ export default function AdminAppDetailModal({appointment, appDetail}) {
   }
 
   return (
-    <dialog id={`${appointment.email}`} className="modal">
+    <dialog id={`${appointment.email}${index}`} className="modal">
       <div className="modal-box w-full max-w-4xl">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -134,7 +134,7 @@ export default function AdminAppDetailModal({appointment, appDetail}) {
                 {appointment.images.map((image, index) => (
                 <>
                   <button onClick={()=>document.getElementById(`customer_photo_${index}`).showModal()}>
-                    <Image src={image} alt='customer photo' width='24' height='24' className="w-24 h-24"/>
+                    <Image src={image} alt='customer photo' width={24} height={24} className="w-24 h-24"/>
                   </button>
                     <dialog id={`customer_photo_${index}`} className="modal">
                       <div className="modal-box">
@@ -164,32 +164,6 @@ export default function AdminAppDetailModal({appointment, appDetail}) {
               </Link>
               <button className="btn btn-primary ml-5" onClick={handleContactCustomer}>Contact Customer</button>
             </div>
-            {/* <div className="mt-5">
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text">Update appointment status</span>
-              </div>
-              <div className='flex items-center space-x-2'>
-                <select className="select select-bordered flex-grow" ref={statusRef}>
-                  <option disabled selected>Change appointment status</option>
-                  <option>Unasigned</option>
-                  <option>Asigned</option>
-                  <option>Complete</option>
-                  <option>Invoiced</option>
-                </select>
-              <button class="btn btn-active btn-primary ml-3 w-40" onClick={updateStatus}>{ updateLoading ? <span className="loading loading-dots loading-md"></span> :'Update Status'}</button>
-              </div>
-            </label>
-
-            </div> */}
-            {/* <div className="mt-5">
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text text-start">Create invoice if appointment status is complete</span>
-              </div>
-              <button className="btn btn-active btn-primary">Generate Invoice</button>
-            </label>
-            </div> */}
           </div>
         </div>
       </div>
