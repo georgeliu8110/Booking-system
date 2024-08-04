@@ -20,13 +20,6 @@ export default function useGetCustomerInfo(email) {
 
 				setError(null);
 				setData(res.data);
-				// if (res.data?.status === 500) {
-				// 	setError(res.data.error);
-				// 	setData(null);
-				// } else {
-				// 	setData(res.data);
-				// 	setError(null);
-				// }
 
 			} catch (error) {
 
