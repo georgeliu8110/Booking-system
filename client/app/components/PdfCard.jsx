@@ -43,6 +43,7 @@ const PdfCard = ({title, appointment, appDetail}) => {
       setLoading(true);
       const formData = new FormData();
       formData.append('invoice', blob);
+      formData.append('invoiceBalance', 300);
       formData.append('appId', appointment.appId);
       formData.append('email', appointment.email);
 
