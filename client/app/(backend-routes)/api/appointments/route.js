@@ -15,8 +15,9 @@ export async function GET(request) {
 
 
       const data = queryData.reduce((acc, customer) => {
-      const appointmentForSelectedDate = customer.appointments.find(appointment => appointment.date === date)
-      if (appointmentForSelectedDate) {
+      const appointmentsForSelectedDate = customer.appointments.filter(appointment => appointment.date === date)
+      if (appointmentsForSelectedDate.length > 0) {
+        appointmentsForSelectedDate.forEach(appointmentForSelectedDate => {
         acc.push({
           name: customer.name,
           address: customer.address,
@@ -29,14 +30,14 @@ export async function GET(request) {
           appId: appointmentForSelectedDate.confirmationNumber,
           detail: appointmentForSelectedDate.detail,
           images: appointmentForSelectedDate.images,
-          status: appointmentForSelectedDate.status,
           signature: appointmentForSelectedDate.signature,
           technician: appointmentForSelectedDate.technician,
           inovice: appointmentForSelectedDate.invoice,
           })
-      }
-      return acc
-    }, [])
+      })
+    }
+    return acc
+  }, [])
 
     const body = JSON.stringify({ data });
     return new Response(body, {
