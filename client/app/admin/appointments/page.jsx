@@ -84,7 +84,7 @@ export default function AppointmentsPage() {
 								}
 								return (
 									<>
-									<AdminAppDetailModal appointment={appointment} appDetail={appDetail}/>
+									<AdminAppDetailModal appointment={appointment} appDetail={appDetail} index={index}/>
 									<AdminAppActionModal appointment={appointment} appDetail={appDetail} index={index}/>
 									<tr key={index} className='border-gray-300 text-black font-medium dark:text-white'>
 										<th>{indexOfFirstAppointment + index + 1}</th>
@@ -98,10 +98,10 @@ export default function AppointmentsPage() {
 											{appointment.status}
 										</td>
 										<td>
-											{appointment.technician}
+											{appointment.technician || 'Not Assigned'}
 										</td>
 										<td>
-											<button className="btn btn-success text-xs" onClick={() => document.getElementById(appointment.email).showModal()}>See Details</button>
+											<button className="btn btn-success text-xs" onClick={() => document.getElementById(`${appointment.email}${index}`).showModal()}>See Details</button>
 										</td>
 										<td>
 											<button className="btn btn-link text-3xl" onClick={() => document.getElementById(`appAction${index}${appointment.appId}`).showModal()}><FaArrowCircleRight /></button>

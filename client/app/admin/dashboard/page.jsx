@@ -133,27 +133,27 @@ export default function AdminPage() {
                 className="hover"
                 key={uuidv4()}>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900  dark:text-white"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900  dark:text-white text-end"
                   key={uuidv4()}>
                   {indexOfFirstRow + index + 1}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white text-center"
                   key={uuidv4()}>
                   {app.name}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white text-center"
                   key={uuidv4()}>
                   {timeSlots[app.time]}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white text-center"
                   key={uuidv4()}>
                   {serviceName(app.serviceId)}
                 </td>
                 <td
-                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white"
+                  className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white text-center"
                   key={uuidv4()}>
                   {partNameCollection(app.serviceId)}
                 </td>
