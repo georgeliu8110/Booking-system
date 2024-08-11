@@ -5,8 +5,6 @@ export async function POST (request) {
   const data = await request.json();
   const { email, appId, technician, status } = data;
 
-  console.log('data', data)
-
   try {
     const customerQueryRef = await db.collection('customerInfo').where("email", "=", email);
     const customerQuerySnapshot = await customerQueryRef.get();
