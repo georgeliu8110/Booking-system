@@ -8,6 +8,7 @@ import useGetAppointments from '@/app/_hooks/appointments-api/useGetAppointments
 import RescheduleAppModal from '@/app/components/RescheduleAppModal';
 import useGetCustomerBalance from '@/app/_hooks/customerInfo-api/useGetCustomerBalance';
 import useGetServices from '@/app/_hooks/service-api/useGetServices';
+import Checkout from '@/app/components/Checkout';
 
 const CustomerProfileAppCard = lazy(() => import('@/app/components/CustomerProfileAppCard'));
 
@@ -19,8 +20,6 @@ export default function CustomerProfile() {
   const { data: appData, error: appError, isLoading: appLoading } = useGetAppointments(null, user.email);
   const { data: customerBalanceData, error: customerBalanceError, isLoading: customerBalanceLoading } = useGetCustomerBalance(user.email);
   const { data: serviceList, error: serviceListError, isLoading: serviceListLoading} = useGetServices();
-  console.log('serviceList', serviceList)
-  console.log('customerBalanceData', customerBalanceData)
 
   const [editCustomerInfo, setEditCustomerInfo] = useState({
     firstName: '',
@@ -55,6 +54,8 @@ export default function CustomerProfile() {
       </div>
     );
   }
+
+  console.log('appData', appData)
 
   const editProfileHandler = () => {
     if (enableEdit) {
@@ -92,6 +93,8 @@ export default function CustomerProfile() {
     }
 
     };
+   console.log('customerBalanceData', customerBalanceData)
+    console.log('appIds ==========>>>', customerBalanceData?.appointmentsInvoiced?.map(app=>app.confirmationNumber))
 
   return (
     <>
@@ -160,13 +163,13 @@ export default function CustomerProfile() {
       </div>
       <div className="divider"></div>
       <div className="card rounded-box grid h-20 place-items-center">
-      <h1 className='text-center font-bold text-3xl'>Account Balance</h1>
+      <h1 className='text-center font-bold text-3xl mt-5'>Account Balance</h1>
       <div className='my-8'>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
           <thead>
-            <tr className='text-2xl'>
+            <tr className='text-lg'>
               <th></th>
               <th>Invoice # </th>
               <th>Job</th>
@@ -174,16 +177,21 @@ export default function CustomerProfile() {
             </tr>
           </thead>
           <tbody>
-            {customerBalanceData && customerBalanceData.appointmentsInvoiced.map((app, index) => {
+            {customerBalanceData?.customerBalance === 0 ?
+            (<tr className='text-md'>
+              <td></td>
+              <td colSpan='4'>No outstanding invoice</td>
+            </tr>)
+            : (customerBalanceData && customerBalanceData.appointmentsInvoiced.map((app, index) => {
               return (
-                <tr key={index} className='text-lg'>
+                <tr key={index} className='text-md'>
                   <td>{index + 1}</td>
                   <td>{app.invoiceNumber}</td>
                   <td>{(serviceList.find(service => service.id === app.serviceId))?.name}</td>
                   <td>${app.invoiceBalance}</td>
                 </tr>
               )
-            })}
+            }))}
           </tbody>
         </table>
       </div>
@@ -191,10 +199,10 @@ export default function CustomerProfile() {
 
       <div className="stats text-primary-content my-8">
         <div className="stat flex items-center ">
-          <div className="stat-title font-bold text-2xl">Current balance:</div>
+          <div className="stat-title font-bold text-xl">Current balance:</div>
           <div className="stat-value text-blue-700">${`${customerBalanceData?.customerBalance}`}</div>
           <div className="stat-actions mb-3">
-            <button className="btn btn-sm btn-success">Pay Balance</button>
+            <Checkout serviceName={(serviceList.find(service => service.id === appData.serviceId))?.name} amount={`${customerBalanceData?.customerBalance}`} customerEmail={customerInfoData[0]?.email} appIds={customerBalanceData?.appointmentsInvoiced?.map(app=>app.confirmationNumber)}/>
           </div>
         </div>
       </div>
