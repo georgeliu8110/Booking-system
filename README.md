@@ -1,6 +1,6 @@
 # Plumbing Reservation App
 
-A brief description of your project...
+A comprehensive plumbing reservation system built using modern web technologies, including Next.js, Firebase, Stripe, and various React libraries. This app provides a seamless experience for customers to book plumbing services, manage their appointments, and handle payments. It also includes an admin portal for managing appointments, inventory, and customer interactions.
 
 ## Table of Contents
 
@@ -21,11 +21,22 @@ A brief description of your project...
 
 ## Features
 
-Detailed description of features...
+* **User-Friendly Interface:** Mobile-first design with easy navigation and a clean interface.
+* **Comprehensive Booking System:** Allows users to book plumbing services, upload photos, choose appointment slots, and more.
+* **Secure Authentication:** Supports Google OAuth, password reset, and error handling.
+* **Admin Management:** Manage appointments, technicians, and inventory with detailed workflows.
+* **Stripe Integration:** Secure payment processing with Stripe for customer account balances.
+* **Dark Mode:** Full support for light and dark themes across the application.
+* **Real-Time Notifications:** Email confirmations and reminders for appointments.
 
 ## Tech Stack
 
-Details about the technology stack...
+* **Frontend:** Next.js, React, Tailwind CSS, Next-Themes
+* **Backend:** Firebase, Firestore, Google APIs
+* **Payment:** Stripe.js
+* **File Handling:** React-Dropzone, React-PDF/Renderer, React-Signature-Canvas
+* **Stripe Integration:** Secure payment processing with Stripe for customer account balances.
+* **Deployment:** Vercel
 
 ## Installation
 
