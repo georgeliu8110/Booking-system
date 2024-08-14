@@ -35,7 +35,6 @@ A comprehensive plumbing reservation system built using modern web technologies,
 * **Backend:** Firebase, Firestore, Google APIs
 * **Payment:** Stripe.js
 * **File Handling:** React-Dropzone, React-PDF/Renderer, React-Signature-Canvas
-* **Stripe Integration:** Secure payment processing with Stripe for customer account balances.
 * **Deployment:** Vercel
 
 ## Installation
