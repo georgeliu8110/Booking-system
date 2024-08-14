@@ -17,3 +17,8 @@ body {
 	-webkit-appearance: none;
 	margin: 0;
 }
+
+.visible {
+  @apply opacity-100;
+}
+
