@@ -14,6 +14,8 @@ import AppointmentModal from '@/app/components/AppointmentModal';
 export default function NavBar({ children }) {
   const [user, loading, error] = useAuthState(auth);
 
+  console.log('user', user)
+
   useDrift();
   const [shouldUseDrift, setShouldUseDrift] = useState(true);
   const pathname = usePathname();
@@ -51,6 +53,10 @@ export default function NavBar({ children }) {
             </div>
             <div className="flex justify-end flex-1 px-2">
               <div className="flex items-stretch">
+              {/* {user && <p className="btn btn-ghost rounded-btn text-xl">Welcome, {user.displayName}!</p>} */}
+              {user && <p className="badge badge-warning gap-2 p-5">
+                Welcome, {user.displayName}!
+              </p>}
               <button className="btn btn-ghost rounded-btn text-xl" onClick={()=>document.getElementById('my_modal_3').showModal()}>Book Now</button>
               <AppointmentModal />
                 <Link href={"/companyservices"} className="btn btn-ghost rounded-btn text-xl">Services</Link>
